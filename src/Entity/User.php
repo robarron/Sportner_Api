@@ -23,9 +23,9 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="array")
      */
-    private $roles;
+    private $roles = [];
 
     /**
      * @var string The hashed password
@@ -34,14 +34,9 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="string", unique=true, length=180, nullable=true)
      */
-    private $age;
-
-    /**
-      * @ORM\Column(type="string", unique=true, length=190, nullable=true)
-      */
-     private $apiToken;
+    private $apiToken;
 
     public function getId(): ?int
     {
@@ -65,7 +60,7 @@ class User implements UserInterface
      *
      * @see UserInterface
      */
-    public function getUsername()
+    public function getUsername(): string
     {
         return (string) $this->email;
     }
@@ -73,12 +68,16 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getRoles()
+    public function getRoles(): array
     {
-        return  $this->roles;
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
 
-    public function setRoles($roles)
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
@@ -115,18 +114,6 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    public function getAge()
-    {
-        return $this->age;
-    }
-
-    public function setAge($age): self
-    {
-        $this->age = $age;
-
-        return $this;
     }
 
     /**

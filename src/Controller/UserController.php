@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use Doctrine\ORM\EntityNotFoundException;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -53,10 +54,29 @@ class UserController extends FOSRestController
      */
     public function getUserById(int $userId): View
     {
+
         $entityManager = $this->getDoctrine()->getManager();
 
-        $article = $entityManager->getRepository(User::class)->findBy(['id' => $userId]);
+        $user = $entityManager->getRepository(User::class)->findBy(['id' => $userId]);
+
+        if (!$user) {
+            throw new EntityNotFoundException('User with id '.$userId.' does not exist!');
+        }
+
         // In case our GET was a success we need to return a 200 HTTP OK response with the request object
-        return View::create($article, Response::HTTP_OK);
+        return View::create($user, Response::HTTP_OK);
+    }
+
+    /**
+     * Retrieves a collection of Article resource
+     * @Rest\Get("/users")
+     */
+    public function getUsers(): View
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $users = $entityManager->getRepository(User::class)->findAll();
+        // In case our GET was a success we need to return a 200 HTTP OK response with the collection of article object
+        return View::create($users, Response::HTTP_OK);
     }
 }
