@@ -49,8 +49,8 @@ class UserController extends FOSRestController
     }
 
     /**
-     * Retrieves an User resource
-     * @Rest\Get("/users/{userId}")
+     * Retrieves an User resource by his id
+     * @Rest\Get("/userById/{userId}", requirements={"id"="\d+"})
      */
     public function getUserById(int $userId): View
     {
@@ -61,6 +61,25 @@ class UserController extends FOSRestController
 
         if (!$user) {
             throw new EntityNotFoundException('User with id '.$userId.' does not exist!');
+        }
+
+        // In case our GET was a success we need to return a 200 HTTP OK response with the request object
+        return View::create($user, Response::HTTP_OK);
+    }
+
+    /**
+     * Retrieves an User resource By his email
+     * @Rest\Get("/userByEmail/{email}")
+     */
+    public function getUserByEmail(string $email): View
+    {
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $user = $entityManager->getRepository(User::class)->findBy(['email' => $email]);
+
+        if (!$user) {
+            throw new EntityNotFoundException('User with id '.$email.' does not exist!');
         }
 
         // In case our GET was a success we need to return a 200 HTTP OK response with the request object
