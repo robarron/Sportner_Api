@@ -53,6 +53,11 @@ class Image
     private $user;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $imagePath;
+
+    /**
      * Get id
      *
      * @return integer
@@ -111,29 +116,33 @@ class Image
         return null === $this->image ? null : $this->getUploadRootDir().$this->image;
     }
 
-    protected function getUploadRootDir()
+    public function getUploadRootDir()
     {
         // the absolute directory path where uploaded documents should be saved
-        return $this->getTmpUploadRootDir().$this->getId()."/";
+        return $this->getTmpUploadRootDir(). '_' . $this->getUser()->getId()."/";
     }
 
-    protected function getTmpUploadRootDir()
+    public function getTmpUploadRootDir()
     {
         // the absolute directory path where uploaded documents should be saved
         return __DIR__ . '/../../public/upload/img';
     }
 
+    public function getRelativeImageDir() {
+            // the relative directory path where uploaded documents should be saved
+            return 'public/upload/img' . $this->getUser()->getId()."/";
+    }
 
-//    /**
-//     * @ORM\PrePersist()
-//     * @ORM\PreUpdate()
-//     */
-//    public function preUploadImage()
-//    {
-//        if (null !== $this->imageFile) {
-//            $this->image = 'image.' .$this->getImageFile()->guessClientExtension();
-//        }
-//    }
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUploadImage()
+    {
+        if (null !== $this->imageFile) {
+            $this->image = 'image.' .$this->getImageFile()->guessClientExtension();
+        }
+    }
 
 
     /**
@@ -150,9 +159,11 @@ class Image
             mkdir($this->getUploadRootDir());
         }
 
-        $this->imageFile->move(__DIR__ . '/../../public/upload/img', 'coucou');
+        $this->imageFile->move($this->getUploadRootDir(), $this->getId() . '_' . $this->image);
 
         unset($this->imageFile);
+        $this->imageFile = null;
+
     }
 
 
@@ -196,6 +207,18 @@ class Image
     public function setUser($user): void
     {
         $this->user = $user;
+    }
+
+    public function getImagePath(): ?string
+    {
+        return $this->imagePath;
+    }
+
+    public function setImagePath(string $imagePath): self
+    {
+        $this->imagePath = $imagePath;
+
+        return $this;
     }
 
 
