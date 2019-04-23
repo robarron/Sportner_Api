@@ -3,44 +3,48 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\MaxDepth;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ *
+ * @ORM\Table()
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
  */
 class Image
 {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string $image
+     *
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
      */
-    private $path;
+    private $image;
+
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\File(
+     * maxSize="1M",
+     * mimeTypes={"image/png", "image/jpeg", "image/gif"}
+     * )
      */
-    private $name;
+    public $imageFile;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string $description
+     *
+     * @ORM\Column(name="description", type="string", nullable=true)
      */
-    private $mimeType;
-
-    /**
-     * @ORM\Column(type="decimal", precision=10, scale=0, nullable=true)
-     */
-    private $size;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $publicPath;
+    private $description;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="images")
@@ -48,80 +52,151 @@ class Image
      */
     private $user;
 
-    public function getId(): ?int
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
     {
         return $this->id;
     }
 
-    public function getPath(): ?string
+    /**
+     * Set image
+     *
+     * @param string $image
+     */
+    public function setImage($image)
     {
-        return $this->path;
+        $this->image = $image;
     }
 
-    public function setPath(?string $path): self
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
     {
-        $this->path = $path;
-
-        return $this;
+        return $this->image;
     }
 
-    public function getName(): ?string
+    /**
+     * Set description
+     *
+     * @param string $description
+     */
+    public function setDescription($description)
     {
-        return $this->name;
+        $this->description = $description;
     }
 
-    public function setName(?string $name): self
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
     {
-        $this->name = $name;
-
-        return $this;
+        return $this->description;
     }
 
-    public function getMimeType(): ?string
+
+
+    // Upload d'image
+
+    public function getFullImagePath()
     {
-        return $this->mimeType;
+        return null === $this->image ? null : $this->getUploadRootDir().$this->image;
     }
 
-    public function setMimeType(?string $mimeType): self
+    protected function getUploadRootDir()
     {
-        $this->mimeType = $mimeType;
-
-        return $this;
+        // the absolute directory path where uploaded documents should be saved
+        return $this->getTmpUploadRootDir().$this->getId()."/";
     }
 
-    public function getSize()
+    protected function getTmpUploadRootDir()
     {
-        return $this->size;
+        // the absolute directory path where uploaded documents should be saved
+        return __DIR__ . '/../../public/upload/img';
     }
 
-    public function setSize($size): self
-    {
-        $this->size = $size;
 
-        return $this;
+//    /**
+//     * @ORM\PrePersist()
+//     * @ORM\PreUpdate()
+//     */
+//    public function preUploadImage()
+//    {
+//        if (null !== $this->imageFile) {
+//            $this->image = 'image.' .$this->getImageFile()->guessClientExtension();
+//        }
+//    }
+
+
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function uploadImage()
+    {
+        if (null === $this->imageFile) {
+            return;
+        }
+
+        if(!is_dir($this->getUploadRootDir())){
+            mkdir($this->getUploadRootDir());
+        }
+
+        $this->imageFile->move(__DIR__ . '/../../public/upload/img', 'coucou');
+
+        unset($this->imageFile);
     }
 
-    public function getPublicPath(): ?string
+
+
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeImage()
     {
-        return $this->publicPath;
+        unlink($this->getFullImagePath());
+        rmdir($this->getUploadRootDir());
     }
 
-    public function setPublicPath(?string $publicPath): self
+    /**
+     * @return UploadedFile
+     */
+    public function getImageFile()
     {
-        $this->publicPath = $publicPath;
-
-        return $this;
+        return $this->imageFile;
     }
 
-    public function getUser(): ?User
+    /**
+     * @param UploadedFile $imageFile
+     */
+    public function setImageFile($imageFile): void
+    {
+        $this->imageFile = $imageFile;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user): void
     {
         $this->user = $user;
-
-        return $this;
     }
+
+
 }
