@@ -36,11 +36,6 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", unique=true, length=180, nullable=true)
-     */
-    private $apiToken;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="user")
      */
     private $images;
@@ -126,22 +121,6 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getApiToken()
-    {
-        return $this->apiToken;
-    }
-
-    /**
-     * @param mixed $apiToken
-     */
-    public function setApiToken($apiToken): void
-    {
-        $this->apiToken = $apiToken;
     }
 
     /**

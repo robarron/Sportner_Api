@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190423173921 extends AbstractMigration
+final class Version20190424054031 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -21,8 +21,9 @@ final class Version20190423173921 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
-        $this->addSql('ALTER TABLE image ADD image_path VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE image DROP FOREIGN KEY FK_C53D045FA76ED395');
+        $this->addSql('ALTER TABLE image ADD created_at DATETIME NOT NULL, ADD updated_at DATETIME NOT NULL, CHANGE user_id user_id INT NOT NULL');
+        $this->addSql('ALTER TABLE image ADD CONSTRAINT FK_C53D045FA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
     }
 
     public function down(Schema $schema) : void
@@ -30,6 +31,6 @@ final class Version20190423173921 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE image DROP image_path, CHANGE user_id user_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE image DROP created_at, DROP updated_at, CHANGE user_id user_id INT DEFAULT NULL');
     }
 }

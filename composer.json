@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "friendsofsymfony/rest-bundle": "^2.5",
+        "gedmo/doctrine-extensions": "^2.4",
         "hwi/oauth-bundle": "^0.6.3",
         "jms/serializer-bundle": "^3.2",
         "lexik/jwt-authentication-bundle": "^2.6",

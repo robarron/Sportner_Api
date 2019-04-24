@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190423173921 extends AbstractMigration
+final class Version20190424063302 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,7 +22,8 @@ final class Version20190423173921 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE image ADD image_path VARCHAR(255) NOT NULL');
+        $this->addSql('DROP INDEX UNIQ_8D93D6497BA2F5EB ON user');
+        $this->addSql('ALTER TABLE user DROP api_token');
     }
 
     public function down(Schema $schema) : void
@@ -30,6 +31,7 @@ final class Version20190423173921 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE image DROP image_path, CHANGE user_id user_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE User ADD api_token VARCHAR(180) DEFAULT NULL COLLATE utf8mb4_unicode_ci');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D6497BA2F5EB ON User (api_token)');
     }
 }

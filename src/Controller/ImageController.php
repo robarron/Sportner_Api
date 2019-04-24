@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Image;
 use App\Entity\User;
 use App\Service\ImageService;
+use DateTime;
 use FOS\RestBundle\View\View;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -30,14 +31,17 @@ class ImageController extends AbstractController
     {
 
         $entityManager = $this->getDoctrine()->getManager();
-        $user = $entityManager->getRepository(User::class)->findOneBy(["email" => "rbarron@carvivo.com"]);
 
-        $imageArray = $request->files->get('photo');
+        $photoParam = $request->files->get('photo');
+        $userEmail = $request->get('userEmail');
+        $user = $entityManager->getRepository(User::class)->findOneBy(["email" => $userEmail]);
 
         $image = new Image();
-        $image->setImage($imageArray);
-        $image->setImageFile($imageArray);
+        $image->setImage($photoParam);
+        $image->setImageFile($photoParam);
         $image->setUser($user);
+        $image->setCreatedAt(new DateTime(date('Y-m-d h:m')));
+        $image->setUpdatedAt(new DateTime(date('Y-m-d h:m')));
         $serializer->serialize($image, 'json');
 
 
