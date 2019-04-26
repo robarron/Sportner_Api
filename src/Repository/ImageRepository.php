@@ -19,6 +19,16 @@ class ImageRepository extends ServiceEntityRepository
         parent::__construct($registry, Image::class);
     }
 
+    public function FindAllImagesExceptMe($userId)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.id != :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Image[] Returns an array of Image objects
     //  */

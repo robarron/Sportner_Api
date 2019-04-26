@@ -76,6 +76,21 @@ class Image
     protected $updatedAt;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $profilImage;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $imagePathForRequire;
+
+    /**
+     * @ORM\Column(type="string", length=65535)
+     */
+    private $base64;
+
+    /**
      * Get id
      *
      * @return integer
@@ -143,12 +158,17 @@ class Image
     public function getTmpUploadRootDir()
     {
         // the absolute directory path where uploaded documents should be saved
-        return __DIR__ . '/../../public/upload/img';
+        return 'C:/xampp/htdocs/projets/Sportner/Ressources/upload/img';
     }
 
     public function getRelativeImageDir() {
             // the relative directory path where uploaded documents should be saved
-            return 'public/upload/img' . $this->getUser()->getId()."/";
+            return 'Ressources/upload/img_' . $this->getUser()->getId() ."/" . $this->getId() . '_' . $this->image;
+    }
+
+    public function getRelativeImageDirForRequire() {
+        // the relative directory path where uploaded documents should be saved
+        return 'require(\'../Ressources/upload/img_' . $this->getUser()->getId() ."/" . $this->getId() . '_' . $this->image . '\')';
     }
 
     /**
@@ -269,6 +289,42 @@ class Image
     public function setUpdatedAt(DateTime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    public function getProfilImage(): ?bool
+    {
+        return $this->profilImage;
+    }
+
+    public function setProfilImage(bool $profilImage): self
+    {
+        $this->profilImage = $profilImage;
+
+        return $this;
+    }
+
+    public function getImagePathForRequire(): ?string
+    {
+        return $this->imagePathForRequire;
+    }
+
+    public function setImagePathForRequire(string $imagePathForRequire): self
+    {
+        $this->imagePathForRequire = $imagePathForRequire;
+
+        return $this;
+    }
+
+    public function getBase64(): ?string
+    {
+        return $this->base64;
+    }
+
+    public function setBase64(string $base64): self
+    {
+        $this->base64 = $base64;
+
+        return $this;
     }
 
 }
