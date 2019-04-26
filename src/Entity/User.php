@@ -40,6 +40,36 @@ class User implements UserInterface
      */
     private $images;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $firstName;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $lastName;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $sexe;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $phoneNumber;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $age;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $description;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -150,6 +180,78 @@ class User implements UserInterface
                 $image->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(?string $firstName): self
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(?string $lastName): self
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getSexe(): ?string
+    {
+        return $this->sexe;
+    }
+
+    public function setSexe(?string $sexe): self
+    {
+        $this->sexe = $sexe;
+
+        return $this;
+    }
+
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phoneNumber;
+    }
+
+    public function setPhoneNumber(?string $phoneNumber): self
+    {
+        $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    public function getAge(): ?int
+    {
+        return $this->age;
+    }
+
+    public function setAge(?int $age): self
+    {
+        $this->age = $age;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
