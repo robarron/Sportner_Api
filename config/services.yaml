@@ -7,6 +7,11 @@ parameters:
     locale: 'fr'
 
 services:
+    api_service:
+        class: App\Service\ApiService
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@service_container'
     api_key_authenticator:
         class: App\Security\TokenAuthenticator
         arguments: ["@router"]

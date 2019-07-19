@@ -69,7 +69,7 @@ class UserController extends FOSRestController
 
     /**
      * Retrieves an User resource By his email
-     * @Rest\Get("/userByEmail/{email}")
+     * @Rest\Get("/userByEmail/{email}", name= "api_user_one" )
      */
     public function getUserByEmail(string $email): View
     {
@@ -144,23 +144,6 @@ class UserController extends FOSRestController
 
         $formatted = array_merge($pagerInfo, $formatted);
 
-        return $this->createFosRestView($formatted);
-    }
-
-    /**
-     * @param array $data
-     * @param int $statusCode
-     * @param array $headers
-     * @param string $format
-     *
-     * @return View
-     */
-    public function createFosRestView(array $data, $statusCode = Response::HTTP_OK, array $headers = [], $format = 'json')
-    {
-        $finalData = ['result' => $data];
-        $view = View::create($finalData, $statusCode, $headers);
-        $view->setFormat($format);
-
-        return $view;
+        return $this->get('api_service')->createFosRestView($formatted);
     }
 }
