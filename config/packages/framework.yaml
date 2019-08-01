@@ -3,7 +3,7 @@ framework:
     #default_locale: en
     #csrf_protection: true
     #http_method_override: true
-    trusted_hosts: ['127.0.0.1', 'localhost', '192.168.1.62', '192.168.1.64', '192.168.15.144', '192.168.15.24']
+    trusted_hosts: ['127.0.0.1', 'localhost', '192.168.1.62', '192.168.1.64', '192.168.15.144', '192.168.15.24', '192.168.1.41', '172.20.10.3']
 
     # Enables session support. Note that the session will ONLY be started if you read or write from it.
     # Remove or comment this section to explicitly disable session support.

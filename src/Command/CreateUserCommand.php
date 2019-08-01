@@ -64,6 +64,7 @@ class CreateUserCommand extends Command
 
 
         $newUser = new User();
+        $newUser->setPasswordPlainText($input->getArgument('password'));
 
         $encodedPassword = $this->passwordEncoder->encodePassword(
             $newUser,

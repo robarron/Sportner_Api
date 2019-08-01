@@ -70,6 +70,26 @@ class User implements UserInterface
      */
     private $description;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $facebookId;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $createdFromFacebook;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $passwordPlainText;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $birthdayDate;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -252,6 +272,54 @@ class User implements UserInterface
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getFacebookId(): ?int
+    {
+        return $this->facebookId;
+    }
+
+    public function setFacebookId(?int $facebookId): self
+    {
+        $this->facebookId = $facebookId;
+
+        return $this;
+    }
+
+    public function getCreatedFromFacebook(): ?bool
+    {
+        return $this->createdFromFacebook;
+    }
+
+    public function setCreatedFromFacebook(?bool $createdFromFacebook): self
+    {
+        $this->createdFromFacebook = $createdFromFacebook;
+
+        return $this;
+    }
+
+    public function getPasswordPlainText(): ?string
+    {
+        return $this->passwordPlainText;
+    }
+
+    public function setPasswordPlainText(string $passwordPlainText): self
+    {
+        $this->passwordPlainText = $passwordPlainText;
+
+        return $this;
+    }
+
+    public function getBirthdayDate(): ?\DateTimeInterface
+    {
+        return $this->birthdayDate;
+    }
+
+    public function setBirthdayDate(?\DateTimeInterface $birthdayDate): self
+    {
+        $this->birthdayDate = $birthdayDate;
 
         return $this;
     }

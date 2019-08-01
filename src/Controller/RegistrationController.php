@@ -3,9 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Service\ApiService;
+use DateTime;
 use FOS\RestBundle\View\View;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,55 +21,137 @@ class RegistrationController extends AbstractController
      *     path="/register",
      * )
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, ApiService $apiService): View
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): View
     {
-//        dump($request, $request->request->get('firstName'));die;
-
         $newUser = new User();
         $em = $this->getDoctrine()->getManager();
 
-        $isEmailExist = $em->getRepository(User::class)->findOneBy(['email' => $request->request->get('email')]);
+        $getUserByEmail = $em->getRepository(User::class)->findOneBy(['email' => $request->request->get('email')]);
 
-        if ($isEmailExist) {
-            return null;
+        // INSCRIPTION VIA FB AVEC DEJA UN COMPTE SUR APPLI
+        if (($getUserByEmail and $request->request->get('fbUserInfo')) and !$getUserByEmail->getCreatedFromFacebook()) {
+            $actualYear = new DateTime();
+            $userBirthdayDate = new DateTime($request->request->get('fbUserInfo')['birthday']);
+            $age = $actualYear->format('Y') - $userBirthdayDate->format('Y');
+
+            $getUserByEmail->setFacebookId($request->request->get('fbUserInfo')['id']);
+            !$getUserByEmail->getLastName() ? $getUserByEmail->setLastName($request->request->get('lastName')) : null;
+            !$getUserByEmail->getFirstName() ? $getUserByEmail->setFirstName($request->request->get('firstName')) : null;
+            !$getUserByEmail->getSexe() ? $getUserByEmail->setSexe($request->request->get('sexe')) : null;
+            $getUserByEmail->setAge($age);
+            $getUserByEmail->setBirthdayDate($userBirthdayDate);
+            $newUser->setCreatedFromFacebook(true);
+
+            $em->persist($getUserByEmail);
+            $em->flush();
+
+            return View::create($getUserByEmail, Response::HTTP_CREATED);
+
+        } elseif (!$getUserByEmail and $request->request->get('fbUserInfo')) {         // INSCRIPTION VIA FB SANS COMPTE SUR APPLI
+
+            $actualYear = new DateTime();
+            $userBirthdayDate = new DateTime($request->request->get('fbUserInfo')['birthday']);
+            $age = $actualYear->format('Y') - $userBirthdayDate->format('Y');
+
+            $newUser->setFacebookId($request->request->get('fbUserInfo')['id']);
+            $newUser->setLastName($request->request->get('lastName'));
+            $newUser->setFirstName($request->request->get('firstName'));
+            $newUser->setSexe($request->request->get('sexe'));
+            $newUser->setEmail($request->request->get('email'));
+            $newUser->setAge($age);
+            $newUser->setBirthdayDate($userBirthdayDate);
+            $newUser->setCreatedFromFacebook(true);
+
+
+            $newUser->setPasswordPlainText($request->request->get('fbUserInfo')['id']);
+
+            $encodedPassword = $passwordEncoder->encodePassword(
+                $newUser,
+                $request->request->get('fbUserInfo')['id']
+            );
+            $newUser->setPassword($encodedPassword);
+
+            $em->persist($newUser);
+
+            $em->flush();
+
+            return View::create($newUser, Response::HTTP_CREATED);
+
+        } elseif ($getUserByEmail and !$request->request->get('fbUserInfo') and !$getUserByEmail->getCreatedFromFacebook()) {
+            // INSCRIPTION VIA FORMULAIRE AVEC DEJA UN COMPTE SUR APPLI
+
+            throw new HttpException(500, "Ce compte existe déjà en faite");
+        } elseif ($getUserByEmail and $request->request->get('fbUserInfo') and $getUserByEmail->getCreatedFromFacebook()) {
+            // INSCRIPTION VIA FB AVEC DEJA UN COMPTE CREER VIA FB UNIQUEMENT
+
+            return View::create($getUserByEmail, Response::HTTP_CREATED);
+        } elseif ($getUserByEmail and !$request->request->get('fbUserInfo') and $getUserByEmail->getCreatedFromFacebook()) {
+            // INSCRIPTION VIA FORMULAIRE INSCRIPTION AVEC DEJA UN COMPTE CREER VIA FB UNIQUEMENT
+            $em->remove($getUserByEmail);
+            $em->flush();
+
+            $actualYear = new DateTime();
+            $userBirthdayDate = new DateTime($request->request->get('age'));
+            $age = $actualYear->format('Y') - $userBirthdayDate->format('Y');
+
+            $newUser->setLastName($request->request->get('lastName'));
+            $newUser->setFirstName($request->request->get('firstName'));
+            $newUser->setEmail($request->request->get('email'));
+            $newUser->setAge($age);
+            $newUser->setBirthdayDate($userBirthdayDate);
+            $newUser->setSexe($request->request->get('sexe'));
+            $newUser->setPhoneNumber($request->request->get('phoneNumber'));
+            $newUser->setCreatedFromFacebook(false);
+
+            if ($request->request->get('password') != $request->request->get('confirmPassword')) {
+                return null;
+            }
+            $newUser->setPasswordPlainText($request->request->get('password'));
+
+            $encodedPassword = $passwordEncoder->encodePassword(
+                $newUser,
+                $request->request->get('password')
+            );
+            $newUser->setPassword($encodedPassword);
+
+            $em->persist($newUser);
+
+            $em->flush();
+
+            return View::create($newUser, Response::HTTP_CREATED);
+
+        } else {
+            $actualYear = new DateTime();
+            $userBirthdayDate = new DateTime($request->request->get('age'));
+            $age = $actualYear->format('Y') - $userBirthdayDate->format('Y');
+
+            $newUser->setLastName($request->request->get('lastName'));
+            $newUser->setFirstName($request->request->get('firstName'));
+            $newUser->setEmail($request->request->get('email'));
+            $newUser->setAge($age);
+            $newUser->setBirthdayDate($userBirthdayDate);
+            $newUser->setSexe($request->request->get('sexe'));
+            $newUser->setPhoneNumber($request->request->get('phoneNumber'));
+            $newUser->setCreatedFromFacebook(false);
+
+            if ($request->request->get('password') != $request->request->get('confirmPassword')) {
+                  return null;
+            }
+            $newUser->setPasswordPlainText($request->request->get('password'));
+
+            $encodedPassword = $passwordEncoder->encodePassword(
+                $newUser,
+                $request->request->get('password')
+            );
+            $newUser->setPassword($encodedPassword);
+
+            $em->persist($newUser);
+
+            $em->flush();
+
+            return View::create($newUser, Response::HTTP_CREATED);
+
         }
-
-        $newUser->setLastName($request->request->get('lastName'));
-        $newUser->setFirstName($request->request->get('firstName'));
-        $newUser->setEmail($request->request->get('email'));
-        $newUser->setAge($request->request->get('age'));
-        $newUser->setSexe($request->request->get('sexe'));
-        $newUser->setPhoneNumber($request->request->get('phoneNumber'));
-
-        if ($request->request->get('password') != $request->request->get('confirmPassword')) {
-              return null;
-        }
-
-        $encodedPassword = $passwordEncoder->encodePassword(
-            $newUser,
-            $request->request->get('password')
-        );
-        $newUser->setPassword($encodedPassword);
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($newUser);
-        $entityManager->flush();
-
-        $formatted = [
-            'id' => $newUser->getId() ?: null,
-            'firstName' => $newUser->getFirstName() ?: null,
-            'lastName' => $newUser->getLastName() ?: null,
-            'email' => $newUser->getEmail() ?: null,
-            'age' => $newUser->getAge() ?: null,
-            'sexe' => $newUser->getSexe() ?: null,
-            'phoneNumber' => $newUser->getPhoneNumber() ?: null,
-        ];
-// do anything else you need here, like send an email
-
-        return $apiService->createFosRestView($formatted,
-            Response::HTTP_CREATED, [
-                'location' => $this->generateLocationUrl($newUser)
-            ]);
     }
 
     /**
