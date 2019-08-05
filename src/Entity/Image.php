@@ -76,19 +76,39 @@ class Image
     protected $updatedAt;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $profilImage;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $imagePathForRequire;
 
     /**
-     * @ORM\Column(type="string", length=65535)
+     * @ORM\Column(name="profil_pic", type="string", length=65000, nullable=true)
      */
-    private $base64;
+    private $profilPic;
+
+    /**
+     * @ORM\Column(type="string", length=65535, nullable=true)
+     */
+    private $pic2;
+
+    /**
+     * @ORM\Column(type="string", length=65535, nullable=true)
+     */
+    private $pic3;
+
+    /**
+     * @ORM\Column(type="string", length=65535, nullable=true)
+     */
+    private $pic4;
+
+    /**
+     * @ORM\Column(type="string", length=65535, nullable=true)
+     */
+    private $pic5;
+
+    /**
+     * @ORM\Column(type="string", length=65535, nullable=true)
+     */
+    private $pic6;
 
     /**
      * Get id
@@ -291,18 +311,6 @@ class Image
         $this->updatedAt = $updatedAt;
     }
 
-    public function getProfilImage(): ?bool
-    {
-        return $this->profilImage;
-    }
-
-    public function setProfilImage(bool $profilImage): self
-    {
-        $this->profilImage = $profilImage;
-
-        return $this;
-    }
-
     public function getImagePathForRequire(): ?string
     {
         return $this->imagePathForRequire;
@@ -315,14 +323,74 @@ class Image
         return $this;
     }
 
-    public function getBase64(): ?string
+    public function getProfilPic(): ?string
     {
-        return $this->base64;
+        return $this->profilPic;
     }
 
-    public function setBase64(string $base64): self
+    public function setProfilPic(?string $profilPic): self
     {
-        $this->base64 = $base64;
+        $this->profilPic = $profilPic;
+
+        return $this;
+    }
+
+    public function getPic2(): ?string
+    {
+        return $this->pic2;
+    }
+
+    public function setPic2(?string $pic2): self
+    {
+        $this->pic2 = $pic2;
+
+        return $this;
+    }
+
+    public function getPic3(): ?string
+    {
+        return $this->pic3;
+    }
+
+    public function setPic3(?string $pic3): self
+    {
+        $this->pic3 = $pic3;
+
+        return $this;
+    }
+
+    public function getPic4(): ?string
+    {
+        return $this->pic4;
+    }
+
+    public function setPic4(?string $pic4): self
+    {
+        $this->pic4 = $pic4;
+
+        return $this;
+    }
+
+    public function getPic5(): ?string
+    {
+        return $this->pic5;
+    }
+
+    public function setPic5(?string $pic5): self
+    {
+        $this->pic5 = $pic5;
+
+        return $this;
+    }
+
+    public function getPic6(): ?string
+    {
+        return $this->pic6;
+    }
+
+    public function setPic6(?string $pic6): self
+    {
+        $this->pic6 = $pic6;
 
         return $this;
     }

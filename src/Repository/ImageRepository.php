@@ -22,39 +22,21 @@ class ImageRepository extends ServiceEntityRepository
     public function FindAllImagesExceptMe($userId)
     {
         return $this->createQueryBuilder('i')
-            ->andWhere('i.id != :userId')
+            ->andWhere('i.user != :userId')
             ->setParameter('userId', $userId)
             ->getQuery()
             ->getResult()
             ;
     }
 
-    // /**
-    //  * @return Image[] Returns an array of Image objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getUserProfilPicture($userId)
     {
         return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('i.user = :userId')
+            ->andWhere('i.profilPic is not null')
+            ->setParameter('userId', $userId)
             ->getQuery()
             ->getResult()
-        ;
+            ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Image
-    {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

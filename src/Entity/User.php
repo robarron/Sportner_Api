@@ -36,7 +36,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="App\Entity\Image", mappedBy="user")
      */
     private $images;
 
@@ -89,6 +89,16 @@ class User implements UserInterface
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $birthdayDate;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true, name="favorite_sport")
+     */
+    private $favoriteSport;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $rating;
 
     public function __construct()
     {
@@ -171,24 +181,6 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    /**
-     * @return Collection|Image[]
-     */
-    public function getImages(): Collection
-    {
-        return $this->images;
-    }
-
-    public function addImage(Image $image): self
-    {
-        if (!$this->images->contains($image)) {
-            $this->images[] = $image;
-            $image->setUser($this);
-        }
-
-        return $this;
     }
 
     public function removeImage(Image $image): self
@@ -322,6 +314,46 @@ class User implements UserInterface
         $this->birthdayDate = $birthdayDate;
 
         return $this;
+    }
+
+    public function getFavoriteSport(): ?string
+    {
+        return $this->favoriteSport;
+    }
+
+    public function setFavoriteSport(?string $favoriteSport): self
+    {
+        $this->favoriteSport = $favoriteSport;
+
+        return $this;
+    }
+
+    public function getRating(): ?float
+    {
+        return $this->rating;
+    }
+
+    public function setRating(?float $rating): self
+    {
+        $this->rating = $rating;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    /**
+     * @param mixed $images
+     */
+    public function setImages($images): void
+    {
+        $this->images = $images;
     }
 
 }

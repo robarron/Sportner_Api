@@ -4,19 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Image;
 use App\Entity\User;
-use App\Service\ImageService;
 use DateTime;
+use Doctrine\ORM\EntityNotFoundException;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\View\View;
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use JMS\Serializer\SerializerInterface as Serializer;
 
@@ -25,27 +21,21 @@ class ImageController extends AbstractController
 
     /**
      * Creates an Image resource
-     * @Rest\Post("/image")
+     * @Rest\Post("/image/{userId}")
      * @param Request $request
      * @param Serializer $serializer
      * @return View
      */
-    public function postImage(Request $request, Serializer $serializer): View
+    public function postImage(Request $request, Serializer $serializer, int $userId): View
     {
 
         $entityManager = $this->getDoctrine()->getManager();
 
-        $photoParam = $request->files->get('photo');
-        $userEmail = $request->get('userEmail');
-        $isProfilImage = $request->get('profilImage');
-        $base64 = $request->get('base64');
+        $profil_pic = $request->get('profil_pic');
 
-        $user = $entityManager->getRepository(User::class)->findOneBy(["email" => $userEmail]);
+        $user = $entityManager->getRepository(User::class)->findOneBy(["id" => $userId]);
 
         $image = new Image();
-        $image->setImage($photoParam);
-        $image->setImageFile($photoParam);
-        $image->setProfilImage($isProfilImage);
         $image->setUser($user);
         $image->setCreatedAt(new DateTime(date('Y-m-d h:m')));
         $image->setUpdatedAt(new DateTime(date('Y-m-d h:m')));
@@ -53,8 +43,7 @@ class ImageController extends AbstractController
         $image->setImagePathForRequire('string');
 
         $serializer->serialize($image, 'json');
-        $image->setBase64($base64);
-
+        $profil_pic ? $image->setProfilPic($profil_pic) : null;
 
         $entityManager->persist($image);
         $entityManager->flush();
@@ -69,6 +58,45 @@ class ImageController extends AbstractController
     }
 
     /**
+     * update an image ressource
+     * @Rest\View()
+     * @Rest\Patch("/images/{userId}")
+     * @param Request $request
+     * @param int $userId
+     * @return View
+     */
+    public function addPicture(Request $request, int $userId): View
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $profil_pic = $request->get('profil_pic');
+        $pic2 = $request->get('pic2');
+        $pic3 = $request->get('pic3');
+        $pic4 = $request->get('pic4');
+        $pic5 = $request->get('pic5');
+        $pic6 = $request->get('pic6');
+//        dump($pic4);die;
+        $image = $entityManager
+            ->getRepository(Image::class)
+            ->findOneBy(["user" => $userId]);
+
+        if (empty($image)) {
+            return View::create(['message' => 'Image not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $profil_pic ? $image->setProfilPic($profil_pic) : null;
+        $pic2 ? $image->setPic2($pic2) : null;
+        $pic3 ? $image->setPic3($pic3) : null;
+        $pic4 ? $image->setPic4($pic4) : null;
+        $pic5 ? $image->setPic5($pic5) : null;
+        $pic6 ? $image->setPic6($pic6) : null;
+
+        $entityManager->persist($image);
+        $entityManager->flush();
+
+        return View::create($image, Response::HTTP_OK);
+    }
+
+    /**
      * Retrieves a collection of Images resource
      * @Rest\Get("/images_without_me/{userId}")
      * @REST\QueryParam(
@@ -77,12 +105,11 @@ class ImageController extends AbstractController
      *     default="1",
      *     description="The pagination offset. (e.g. : ?page=2)"
      * )
-     * @param string $userId
+     * @param int $userId
      * @param ParamFetcherInterface $paramFetcher
-     * @param Request $request
      * @return View
      */
-    public function getImagesWithoutCurrentUser(string $userId, ParamFetcherInterface $paramFetcher, Request $request): View
+    public function getImagesWithoutCurrentUser(int $userId, ParamFetcherInterface $paramFetcher): View
     {
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -100,9 +127,8 @@ class ImageController extends AbstractController
                 'id' => $param->getId() ?: null,
                 'image_path' => $param->getImagePath() ?: null,
                 'created_at' => $param->getCreatedAt() ?: null,
-                'profil_image' => $param->getProfilImage() ?: null,
+                'profil_pic' => $param->getProfilPic() ?: null,
                 'path_for_require' => $param->getImagePathForRequire() ?: null,
-                'base64' => $param->getBase64() ?: null,
                 'user' => $param->getUser() ?: null,
             ];
         }
@@ -118,6 +144,63 @@ class ImageController extends AbstractController
         $formatted = array_merge($pagerInfo, $formatted);
 
         return $this->createFosRestView($formatted);
+    }
+
+    /**
+     * Check if the current user has a profil picture
+     * @Rest\Get("/has_profil_picture/{userId}")
+     */
+    public function HasUserProfilPicture(int $userId): View
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $user = $entityManager->getRepository(User::class)->findBy(['id' => $userId]);
+
+        if (!$user) {
+            throw new EntityNotFoundException('User with id '.$userId.' does not exist!');
+        }
+
+        $profilPicture = $entityManager->getRepository(Image::class)->getUserProfilPicture($userId);
+
+        // In case our GET was a success we need to return a 200 HTTP OK response with the request object
+        return View::create($profilPicture, Response::HTTP_OK);
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
+     * @Rest\Delete("/images/{userId}")
+     * @param Request $request
+     * @param int $userId
+     * @return View
+     */
+    public function removePlaceAction(Request $request, int $userId)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $image = $entityManager->getRepository(Image::class)
+            ->findOneBy(['user' => $userId]);
+
+        $profil_pic = $request->get('profil_pic');
+        $pic2 = $request->get('pic2');
+        $pic3 = $request->get('pic3');
+        $pic4 = $request->get('pic4');
+        $pic5 = $request->get('pic5');
+        $pic6 = $request->get('pic6');
+
+        if (empty($image)) {
+            return View::create(['message' => 'Image not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $profil_pic ? $image->setProfilPic(null) : null;
+        $pic2 ? $image->setPic2(null) : null;
+        $pic3 ? $image->setPic3(null) : null;
+        $pic4 ? $image->setPic4(null) : null;
+        $pic5 ? $image->setPic5(null) : null;
+        $pic6 ? $image->setPic6(null) : null;
+
+        $entityManager->persist($image);
+        $entityManager->flush();
+
+        return View::create($image, Response::HTTP_OK);
     }
 
     /**
