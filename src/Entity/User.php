@@ -100,6 +100,102 @@ class User implements UserInterface
      */
     private $rating;
 
+    /**
+     * @ORM\Column(type="string", length=400, nullable=true)
+     */
+    private $motivation;
+
+    /**
+     * @ORM\Column(type="string", length=400, nullable=true)
+     */
+    private $sportCaractertics;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $city;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $level;
+
+    /**
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $mondayBeginningHour;
+
+    /**
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $mondayFinishHour;
+
+    /**
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $tuedsayBeginningHour;
+
+    /**
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $tuesdayFinishHour;
+
+    /**
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $wednesdayBeginningHour;
+
+    /**
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $wednesdayFinishHour;
+
+    /**
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $thursdayBeginningHour;
+
+    /**
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $thursdayFinishHour;
+
+    /**
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $fridayBeginningHour;
+
+    /**
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $fridayFinishHour;
+
+    /**
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $saturdayBeginningHour;
+
+    /**
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $saturdayFinishHour;
+
+    /**
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $sundayBeginningHour;
+
+    /**
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $sundayFinishHour;
+
+    /**
+     * @ORM\Column(nullable=true, name="user_parameters_id")
+     * @ORM\OneToOne(targetEntity="App\Entity\UserParameters", mappedBy="User", cascade={"persist", "remove"})
+     */
+    private $userParameters;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -354,6 +450,239 @@ class User implements UserInterface
     public function setImages($images): void
     {
         $this->images = $images;
+    }
+
+    public function getMotivation(): ?string
+    {
+        return $this->motivation;
+    }
+
+    public function setMotivation(?string $motivation): self
+    {
+        $this->motivation = $motivation;
+
+        return $this;
+    }
+
+    public function getSportCaractertics(): ?string
+    {
+        return $this->sportCaractertics;
+    }
+
+    public function setSportCaractertics(?string $sportCaractertics): self
+    {
+        $this->sportCaractertics = $sportCaractertics;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(?string $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getLevel(): ?string
+    {
+        return $this->level;
+    }
+
+    public function setLevel(?string $level): self
+    {
+        $this->level = $level;
+
+        return $this;
+    }
+
+    public function getMondayBeginningHour(): ?\DateTimeInterface
+    {
+        return $this->mondayBeginningHour;
+    }
+
+    public function setMondayBeginningHour(?\DateTimeInterface $mondayBeginningHour): self
+    {
+        $this->mondayBeginningHour = $mondayBeginningHour;
+
+        return $this;
+    }
+
+    public function getMondayFinishHour(): ?\DateTimeInterface
+    {
+        return $this->mondayFinishHour;
+    }
+
+    public function setMondayFinishHour(?\DateTimeInterface $mondayFinishHour): self
+    {
+        $this->mondayFinishHour = $mondayFinishHour;
+
+        return $this;
+    }
+
+    public function getTuedsayBeginningHour(): ?\DateTimeInterface
+    {
+        return $this->tuedsayBeginningHour;
+    }
+
+    public function setTuedsayBeginningHour(?\DateTimeInterface $tuedsayBeginningHour): self
+    {
+        $this->tuedsayBeginningHour = $tuedsayBeginningHour;
+
+        return $this;
+    }
+
+    public function getTuesdayFinishHour(): ?\DateTimeInterface
+    {
+        return $this->tuesdayFinishHour;
+    }
+
+    public function setTuesdayFinishHour(?\DateTimeInterface $tuesdayFinishHour): self
+    {
+        $this->tuesdayFinishHour = $tuesdayFinishHour;
+
+        return $this;
+    }
+
+    public function getWednesdayBeginningHour(): ?\DateTimeInterface
+    {
+        return $this->wednesdayBeginningHour;
+    }
+
+    public function setWednesdayBeginningHour(?\DateTimeInterface $wednesdayBeginningHour): self
+    {
+        $this->wednesdayBeginningHour = $wednesdayBeginningHour;
+
+        return $this;
+    }
+
+    public function getWednesdayFinishHour(): ?\DateTimeInterface
+    {
+        return $this->wednesdayFinishHour;
+    }
+
+    public function setWednesdayFinishHour(?\DateTimeInterface $wednesdayFinishHour): self
+    {
+        $this->wednesdayFinishHour = $wednesdayFinishHour;
+
+        return $this;
+    }
+
+    public function getThursdayBeginningHour(): ?\DateTimeInterface
+    {
+        return $this->thursdayBeginningHour;
+    }
+
+    public function setThursdayBeginningHour(?\DateTimeInterface $thursdayBeginningHour): self
+    {
+        $this->thursdayBeginningHour = $thursdayBeginningHour;
+
+        return $this;
+    }
+
+    public function getThursdayFinishHour(): ?\DateTimeInterface
+    {
+        return $this->thursdayFinishHour;
+    }
+
+    public function setThursdayFinishHour(?\DateTimeInterface $thursdayFinishHour): self
+    {
+        $this->thursdayFinishHour = $thursdayFinishHour;
+
+        return $this;
+    }
+
+    public function getFridayBeginningHour(): ?\DateTimeInterface
+    {
+        return $this->fridayBeginningHour;
+    }
+
+    public function setFridayBeginningHour(?\DateTimeInterface $fridayBeginningHour): self
+    {
+        $this->fridayBeginningHour = $fridayBeginningHour;
+
+        return $this;
+    }
+
+    public function getFridayFinishHour(): ?\DateTimeInterface
+    {
+        return $this->fridayFinishHour;
+    }
+
+    public function setFridayFinishHour(?\DateTimeInterface $fridayFinishHour): self
+    {
+        $this->fridayFinishHour = $fridayFinishHour;
+
+        return $this;
+    }
+
+    public function getSaturdayBeginningHour(): ?\DateTimeInterface
+    {
+        return $this->saturdayBeginningHour;
+    }
+
+    public function setSaturdayBeginningHour(?\DateTimeInterface $saturdayBeginningHour): self
+    {
+        $this->saturdayBeginningHour = $saturdayBeginningHour;
+
+        return $this;
+    }
+
+    public function getSaturdayFinishHour(): ?\DateTimeInterface
+    {
+        return $this->saturdayFinishHour;
+    }
+
+    public function setSaturdayFinishHour(?\DateTimeInterface $saturdayFinishHour): self
+    {
+        $this->saturdayFinishHour = $saturdayFinishHour;
+
+        return $this;
+    }
+
+    public function getSundayBeginningHour(): ?\DateTimeInterface
+    {
+        return $this->sundayBeginningHour;
+    }
+
+    public function setSundayBeginningHour(?\DateTimeInterface $sundayBeginningHour): self
+    {
+        $this->sundayBeginningHour = $sundayBeginningHour;
+
+        return $this;
+    }
+
+    public function getSundayFinishHour(): ?\DateTimeInterface
+    {
+        return $this->sundayFinishHour;
+    }
+
+    public function setSundayFinishHour(?\DateTimeInterface $sundayFinishHour): self
+    {
+        $this->sundayFinishHour = $sundayFinishHour;
+
+        return $this;
+    }
+
+    public function getUserParameters(): ?UserParameters
+    {
+        return $this->userParameters;
+    }
+
+    public function setUserParameters(UserParameters $userParameters): self
+    {
+        $this->userParameters = $userParameters;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $userParameters->getUser()) {
+            $userParameters->setUser($this);
+        }
+
+        return $this;
     }
 
 }
