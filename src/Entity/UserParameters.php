@@ -16,11 +16,6 @@ class UserParameters
      */
     private $id;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="userParameters", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\GenderSearch", inversedBy="UserParameters")
@@ -103,21 +98,14 @@ class UserParameters
      */
     private $MsgPush;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\User", cascade={"persist", "remove"})
+     */
+    private $user;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
     }
 
     public function getGenderSearch(): ?GenderSearch
@@ -308,6 +296,18 @@ class UserParameters
     public function setMsgPush(bool $MsgPush): self
     {
         $this->MsgPush = $MsgPush;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

@@ -19,7 +19,7 @@ class GenderSearch
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\UserParameters", mappedBy="user_parameter")
+     * @ORM\OneToMany(targetEntity="App\Entity\UserParameters", mappedBy="genderSearch")
      */
     private $UserParameters;
 

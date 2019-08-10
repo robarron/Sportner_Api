@@ -39,8 +39,13 @@ class UserParametersController extends AbstractController
         $user = $entityManager->getRepository(User::class)->findOneBy(['id' => $userId]);
         $gender = $entityManager->getRepository(GenderSearch::class)->findOneBy(['value' => $request->get('sexe')]);
 
-//        $user->setPhoneNumber($request->get('userPhone'));
-//        $user->setEmail($request->get('userMail'));
+        if ($request->get('userPhone') && $request->get('userPhone') !== $user->getPhoneNumber())
+        {
+            $user->setPhoneNumber($request->get('userPhone'));
+        } elseif ($request->get('userMail') && $request->get('userMail') !== $user->getEmail())
+        {
+            $user->setEmail($request->get('userMail'));
+        }
 
         $userParameter = new UserParameters();
         $userParameter->setLocalisation($request->get('userPlacement'));
@@ -59,8 +64,7 @@ class UserParametersController extends AbstractController
         $userParameter->setNotifMaj($request->get('majNotif'));
         $userParameter->setMatchPush($request->get('matchPush'));
         $userParameter->setMsgPush($request->get('msgPush'));
-
-        $user->setUserParameters($userParameter);
+        $userParameter->setUser($user);
 
         $entityManager->persist($userParameter);
         $entityManager->flush();

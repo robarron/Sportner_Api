@@ -190,12 +190,6 @@ class User implements UserInterface
      */
     private $sundayFinishHour;
 
-    /**
-     * @ORM\Column(nullable=true, name="user_parameters_id")
-     * @ORM\OneToOne(targetEntity="App\Entity\UserParameters", mappedBy="User", cascade={"persist", "remove"})
-     */
-    private $userParameters;
-
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -664,23 +658,6 @@ class User implements UserInterface
     public function setSundayFinishHour(?\DateTimeInterface $sundayFinishHour): self
     {
         $this->sundayFinishHour = $sundayFinishHour;
-
-        return $this;
-    }
-
-    public function getUserParameters(): ?UserParameters
-    {
-        return $this->userParameters;
-    }
-
-    public function setUserParameters(UserParameters $userParameters): self
-    {
-        $this->userParameters = $userParameters;
-
-        // set the owning side of the relation if necessary
-        if ($this !== $userParameters->getUser()) {
-            $userParameters->setUser($this);
-        }
 
         return $this;
     }
