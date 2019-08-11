@@ -190,6 +190,11 @@ class User implements UserInterface
      */
     private $sundayFinishHour;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $challengePoint;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -658,6 +663,18 @@ class User implements UserInterface
     public function setSundayFinishHour(?\DateTimeInterface $sundayFinishHour): self
     {
         $this->sundayFinishHour = $sundayFinishHour;
+
+        return $this;
+    }
+
+    public function getChallengePoint(): ?int
+    {
+        return $this->challengePoint;
+    }
+
+    public function setChallengePoint(?int $challengePoint): self
+    {
+        $this->challengePoint = $challengePoint;
 
         return $this;
     }
