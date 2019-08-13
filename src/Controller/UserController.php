@@ -9,26 +9,12 @@ use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\View\View;
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Pagerfanta;
-use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use Symfony\Component\Validator\Constraints\Date;
-use Symfony\Component\Validator\Constraints\DateTime;
-use Symfony\Component\Validator\Constraints\Time;
-
 
 class UserController extends FOSRestController
 {
-//    /**
-//     * @Route("/user", name="user")
-//     */
-//    public function index()
-//    {
-//        return $this->render('user/index.html.twig', [
-//            'controller_name' => 'UserController',
-//        ]);
-//    }
 
     /**
      * Creates a User resource
@@ -196,6 +182,38 @@ $coucou = new \DateTime($request->get('mondayDispoBeginning'));
         $request->get('saturdayDispoClosing') && $request->get('saturdayDispoClosing') != $user->getSaturdayFinishHour() ? $user->setSaturdayFinishHour(new \DateTime($request->get('saturdayDispoClosing'))) : null;
         $request->get('sundayDispoBeginning') && $request->get('sundayDispoBeginning') != $user->getSundayBeginningHour() ? $user->setSundayBeginningHour(new \DateTime($request->get('sundayDispoBeginning'))) : null;
         $request->get('sundayDispoClosing') && $request->get('sundayDispoClosing') != $user->getSundayFinishHour() ? $user->setSundayFinishHour(new \DateTime($request->get('sundayDispoClosing'))) : null;
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return View::create($user, Response::HTTP_OK);
+    }
+
+    /**
+     * update dailyPointDate
+     * @Rest\View()
+     * @Rest\Patch("/setDailyPointDate/{userId}")
+     * @param Request $request
+     * @param int $userId
+     * @return View
+     */
+    public function setDailyPointDate(Request $request, int $userId): View
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $user = $entityManager
+            ->getRepository(User::class)
+            ->findOneBy(["id" => $userId]);
+
+        if (empty($user)) {
+            return View::create(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $dailyPointsDoneAtDate = new \DateTime($request->get('dailyPointsDoneAtDate'));
+        $cuserPoints = $user->getChallengePoint();
+
+        $user->setLastDailyPointsDate($dailyPointsDoneAtDate);
+        $user->setChallengePoint($cuserPoints + 15);
 
         $entityManager->persist($user);
         $entityManager->flush();

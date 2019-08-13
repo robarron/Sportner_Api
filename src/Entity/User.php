@@ -195,6 +195,16 @@ class User implements UserInterface
      */
     private $challengePoint;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\SponsorshipCode", cascade={"persist", "remove"})
+     */
+    private $sponsorship;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastDailyPointsDate;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -675,6 +685,30 @@ class User implements UserInterface
     public function setChallengePoint(?int $challengePoint): self
     {
         $this->challengePoint = $challengePoint;
+
+        return $this;
+    }
+
+    public function getSponsorship(): ?SponsorshipCode
+    {
+        return $this->sponsorship;
+    }
+
+    public function setSponsorship(?SponsorshipCode $sponsorship): self
+    {
+        $this->sponsorship = $sponsorship;
+
+        return $this;
+    }
+
+    public function getLastDailyPointsDate(): ?\DateTimeInterface
+    {
+        return $this->lastDailyPointsDate;
+    }
+
+    public function setLastDailyPointsDate(?\DateTimeInterface $lastDailyPointsDate): self
+    {
+        $this->lastDailyPointsDate = $lastDailyPointsDate;
 
         return $this;
     }
