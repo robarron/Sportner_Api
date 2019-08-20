@@ -205,9 +205,33 @@ class User implements UserInterface
      */
     private $lastDailyPointsDate;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserMatch", mappedBy="user", orphanRemoval=true)
+     */
+    private $matches;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserMatch", mappedBy="secondUser", orphanRemoval=true)
+     */
+    private $secondUserMatches;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\MatchProposition", mappedBy="user", orphanRemoval=true)
+     */
+    private $matchPropositions;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\MatchProposition", mappedBy="userWanted", orphanRemoval=true)
+     */
+    private $matchProposedTo;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
+        $this->matches = new ArrayCollection();
+        $this->secondUserMatches = new ArrayCollection();
+        $this->matchPropositions = new ArrayCollection();
+        $this->matchProposedTo = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -712,5 +736,92 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection|UserMatch[]
+     */
+    public function getMatches(): Collection
+    {
+        return $this->matches;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSecondUserMatches()
+    {
+        return $this->secondUserMatches;
+    }
+
+    /**
+     * @param mixed $secondUserMatches
+     */
+    public function setSecondUserMatches($secondUserMatches): void
+    {
+        $this->secondUserMatches = $secondUserMatches;
+    }
+
+    /**
+     * @return Collection|MatchProposition[]
+     */
+    public function getMatchPropositions(): Collection
+    {
+        return $this->matchPropositions;
+    }
+
+    public function addMatchProposition(MatchProposition $matchProposition): self
+    {
+        if (!$this->matchPropositions->contains($matchProposition)) {
+            $this->matchPropositions[] = $matchProposition;
+            $matchProposition->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMatchProposition(MatchProposition $matchProposition): self
+    {
+        if ($this->matchPropositions->contains($matchProposition)) {
+            $this->matchPropositions->removeElement($matchProposition);
+            // set the owning side to null (unless already changed)
+            if ($matchProposition->getUser() === $this) {
+                $matchProposition->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MatchProposition[]
+     */
+    public function getMatchProposedTo(): Collection
+    {
+        return $this->matchProposedTo;
+    }
+
+    public function addMatchProposedTo(MatchProposition $matchProposedTo): self
+    {
+        if (!$this->matchProposedTo->contains($matchProposedTo)) {
+            $this->matchProposedTo[] = $matchProposedTo;
+            $matchProposedTo->setUserWanted($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMatchProposedTo(MatchProposition $matchProposedTo): self
+    {
+        if ($this->matchProposedTo->contains($matchProposedTo)) {
+            $this->matchProposedTo->removeElement($matchProposedTo);
+            // set the owning side to null (unless already changed)
+            if ($matchProposedTo->getUserWanted() === $this) {
+                $matchProposedTo->setUserWanted(null);
+            }
+        }
+
+        return $this;
+    }
+
 
 }

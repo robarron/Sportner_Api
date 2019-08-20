@@ -110,6 +110,8 @@ class SponsorshipCodeController extends AbstractController
 
         if ($user->getSponsorship()) {
             $user->getSponsorship()->setSponsorshipchecked(true);
+            $user->getSponsorship()->setPartnership($userWhoGetTheSponsorShipCode);
+
         } else {
             $childUserSponsorShip = new SponsorshipCode();
             $childUserSponsorShip->setSponsorshipchecked(true);

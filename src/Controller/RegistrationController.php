@@ -20,6 +20,9 @@ class RegistrationController extends AbstractController
      *     name="api_user_create",
      *     path="/register",
      * )
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return View
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): View
     {
@@ -45,7 +48,9 @@ class RegistrationController extends AbstractController
             $em->persist($getUserByEmail);
             $em->flush();
 
-            return View::create($getUserByEmail, Response::HTTP_CREATED);
+            $formatted = $this->formattedView($getUserByEmail);
+
+            return View::create($formatted, Response::HTTP_CREATED);
 
         } elseif (!$getUserByEmail and $request->request->get('fbUserInfo')) {         // INSCRIPTION VIA FB SANS COMPTE SUR APPLI
 
@@ -75,7 +80,10 @@ class RegistrationController extends AbstractController
 
             $em->flush();
 
-            return View::create($newUser, Response::HTTP_CREATED);
+            $formatted = $this->formattedView($newUser);
+
+
+            return View::create($formatted, Response::HTTP_CREATED);
 
         } elseif ($getUserByEmail and !$request->request->get('fbUserInfo') and !$getUserByEmail->getCreatedFromFacebook()) {
             // INSCRIPTION VIA FORMULAIRE AVEC DEJA UN COMPTE SUR APPLI
@@ -84,7 +92,10 @@ class RegistrationController extends AbstractController
         } elseif ($getUserByEmail and $request->request->get('fbUserInfo') and $getUserByEmail->getCreatedFromFacebook()) {
             // INSCRIPTION VIA FB AVEC DEJA UN COMPTE CREER VIA FB UNIQUEMENT
 
-            return View::create($getUserByEmail, Response::HTTP_CREATED);
+            $formatted = $this->formattedView($getUserByEmail);
+
+
+            return View::create($formatted, Response::HTTP_CREATED);
         } elseif ($getUserByEmail and !$request->request->get('fbUserInfo') and $getUserByEmail->getCreatedFromFacebook()) {
             // INSCRIPTION VIA FORMULAIRE INSCRIPTION AVEC DEJA UN COMPTE CREER VIA FB UNIQUEMENT
             $em->remove($getUserByEmail);
@@ -118,7 +129,10 @@ class RegistrationController extends AbstractController
 
             $em->flush();
 
-            return View::create($newUser, Response::HTTP_CREATED);
+            $formatted = $this->formattedView($newUser);
+
+
+            return View::create($formatted, Response::HTTP_CREATED);
 
         } else {
             $actualYear = new DateTime();
@@ -149,7 +163,9 @@ class RegistrationController extends AbstractController
 
             $em->flush();
 
-            return View::create($newUser, Response::HTTP_CREATED);
+            $formatted = $this->formattedView($newUser);
+
+            return View::create($formatted, Response::HTTP_CREATED);
 
         }
     }
@@ -164,4 +180,21 @@ class RegistrationController extends AbstractController
         return $this->generateUrl("api_user_one", ['email' => $user->getEmail()], UrlGeneratorInterface::ABSOLUTE_URL);
     }
 
+    private function formattedView($user)
+    {
+        return $formatted = [
+            "id" => $user->getId(),
+            "email"=> $user->getEmail(),
+            "first_name"=> $user->getFirstName(),
+            "last_name"=> $user->getLastName(),
+            "sexe"=> $user->getSexe(),
+            "phone_number"=> $user->getPhoneNumber(),
+            "age"=> $user->getAge(),
+            "facebook_id"=> $user->getFacebookId(),
+            "created_from_facebook"=> $user->getCreatedFromFacebook(),
+            "password"=> $user->getPassword(),
+            "password_plain_text"=> $user->getPasswordPlainText(),
+            "birthday_date"=> $user->getBirthdayDate(),
+        ];
+    }
 }

@@ -135,6 +135,7 @@ class UserParametersController extends AbstractController
 
         $user = $entityManager->getRepository(User::class)->findOneBy(['id' => $userId]);
         $userParameter = $entityManager->getRepository(UserParameters::class)->findOneBy(['user' => $user]);
+//        dump($userParameter);die;
 
         if (empty($userParameter)) {
             return View::create(['message' => 'Param for user was not found'], Response::HTTP_NOT_FOUND);

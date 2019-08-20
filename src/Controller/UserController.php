@@ -72,8 +72,23 @@ class UserController extends FOSRestController
             throw new EntityNotFoundException('User with id '.$email.' does not exist!');
         }
 
+        $formatted = [
+            "id" => $user->getId(),
+            "email"=> $user->getEmail(),
+            "first_name"=> $user->getFirstName(),
+            "last_name"=> $user->getLastName(),
+            "sexe"=> $user->getSexe(),
+            "phone_number"=> $user->getPhoneNumber(),
+            "age"=> $user->getAge(),
+            "facebook_id"=> $user->getFacebookId(),
+            "created_from_facebook"=> $user->getCreatedFromFacebook(),
+            "password"=> $user->getPassword(),
+            "password_plain_text"=> $user->getPasswordPlainText(),
+            "birthday_date"=> $user->getBirthdayDate(),
+        ];
+
         // In case our GET was a success we need to return a 200 HTTP OK response with the request object
-        return View::create($user, Response::HTTP_OK);
+        return View::create($formatted, Response::HTTP_OK);
     }
 
     /**
@@ -156,11 +171,6 @@ class UserController extends FOSRestController
         if (empty($user)) {
             return View::create(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
-        $tmp = $request->get('mondayDispoBeginning');
-        $ooo = strtotime($tmp);
-//        dump(strtotime("2:57"));die;
-$coucou = new \DateTime($request->get('mondayDispoBeginning'));
-//        dump($coucou->format('h:i'));die;
 
         $request->get('motivation') && $request->get('motivation') != $user->getMotivation() ? $user->setMotivation($request->get('motivation')) : null;
         $request->get('userSportCarac') && $request->get('userSportCarac') != $user->getSportCaractertics() ? $user->setSportCaractertics($request->get('userSportCarac')) : null;

@@ -147,6 +147,37 @@ class ImageController extends AbstractController
     }
 
     /**
+     * Retrieves a collection of Images resource
+     * @Rest\Get("/all_images_without_me/{userId}")
+     * @param int $userId
+     * @return View
+     */
+    public function getAllImagesWithoutCurrentUser(int $userId): View
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $images = $entityManager->getRepository(Image::class)->FindAllImagesExceptMe($userId);
+//        dump($images);die;
+        $formatted = [];
+
+        foreach ($images as $image) {
+            $item = [];
+
+            $item["id"] = $image->getId();
+            $item["user_id"] = $image->getUser()->getId();
+            $item["profil_pic"] = $image->getProfilPic();
+            $item["user_first_name"] = $image->getUser()->getFirstName();
+            $item["user_last_name"] = $image->getUser()->getLastName();
+            $item["user_age"] = $image->getUser()->getAge();
+            $item["user_description"]= $image->getUser()->getDescription();
+
+            $formatted[] = $item;
+        }
+
+        return View::create($formatted, Response::HTTP_OK);
+    }
+
+    /**
      * Check if the current user has a profil picture
      * @Rest\Get("/has_profil_picture/{userId}")
      */
