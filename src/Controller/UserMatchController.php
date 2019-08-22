@@ -84,6 +84,7 @@ class UserMatchController extends AbstractController
             $item["profil_pic"] = $secondUser->getImages() ? $secondUser->getImages()->getProfilPic() : null;
             $item["user_first_name"] = $secondUser->getFirstName();
             $item["user_last_name"] = $secondUser->getLastName();
+            $item["user_id"] = $secondUser->getId();
 
             $formatted[] = $item;
         }

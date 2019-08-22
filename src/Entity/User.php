@@ -230,6 +230,16 @@ class User implements UserInterface
      */
     private $sponsorshipCode;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="sender")
+     */
+    private $messagesSender;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="receptor")
+     */
+    private $messagesReceptor;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -238,6 +248,8 @@ class User implements UserInterface
         $this->matchPropositions = new ArrayCollection();
         $this->matchProposedTo = new ArrayCollection();
         $this->partnerShipCodes = new ArrayCollection();
+        $this->messagesSender = new ArrayCollection();
+        $this->messagesReceptor = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -856,6 +868,68 @@ class User implements UserInterface
     public function setSponsorshipCode(?SponsorshipCode $sponsorshipCode): self
     {
         $this->sponsorshipCode = $sponsorshipCode;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getMessagesSender(): Collection
+    {
+        return $this->messagesSender;
+    }
+
+    public function addMessagesSender(Message $messagesSender): self
+    {
+        if (!$this->messagesSender->contains($messagesSender)) {
+            $this->messagesSender[] = $messagesSender;
+            $messagesSender->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessagesSender(Message $messagesSender): self
+    {
+        if ($this->messagesSender->contains($messagesSender)) {
+            $this->messagesSender->removeElement($messagesSender);
+            // set the owning side to null (unless already changed)
+            if ($messagesSender->getSender() === $this) {
+                $messagesSender->setSender(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getMessagesReceptor(): Collection
+    {
+        return $this->messagesReceptor;
+    }
+
+    public function addMessagesReceptor(Message $messagesReceptor): self
+    {
+        if (!$this->messagesReceptor->contains($messagesReceptor)) {
+            $this->messagesReceptor[] = $messagesReceptor;
+            $messagesReceptor->setReceptor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessagesReceptor(Message $messagesReceptor): self
+    {
+        if ($this->messagesReceptor->contains($messagesReceptor)) {
+            $this->messagesReceptor->removeElement($messagesReceptor);
+            // set the owning side to null (unless already changed)
+            if ($messagesReceptor->getReceptor() === $this) {
+                $messagesReceptor->setReceptor(null);
+            }
+        }
 
         return $this;
     }
