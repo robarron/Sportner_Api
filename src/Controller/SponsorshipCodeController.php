@@ -28,7 +28,7 @@ class SponsorshipCodeController extends AbstractController
 
         $user = $entityManager->getRepository(User::class)->findOneBy(['id' => $userId]);
 
-        if ($user->getSponsorship()) {
+        if ($user->getSponsorshipCode()) {
             return View::create(['message' => "sponsorship for user " + $userId +  "already exist"], Response::HTTP_NOT_FOUND);
         }
 
@@ -58,8 +58,8 @@ class SponsorshipCodeController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
 
         $user = $entityManager->getRepository(User::class)->findOneBy(['id' => $userId]);
-        $sponsorship = $user->getSponsorship();
-        if (!$user->getSponsorship()) {
+        $sponsorship = $user->getSponsorshipCode();
+        if (!$user->getSponsorshipCode()) {
             return View::create(['message' => "sponsorship for user " + $userId +  "doesn't exist"], Response::HTTP_NOT_FOUND);
         }
 
@@ -74,7 +74,7 @@ class SponsorshipCodeController extends AbstractController
 
     /**
      * Creates a SponsorshipCode resource
-     * @Rest\get("/checkSponsorshipCode/{userId}/{sponsorshipCode}")
+     * @Rest\Get("/checkSponsorshipCode/{userId}/{sponsorshipCode}")
      * @param Request $request
      * @param int $userId
      * @param string $sponsorshipCode
@@ -85,20 +85,20 @@ class SponsorshipCodeController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
 
         $user = $entityManager->getRepository(User::class)->findOneBy(['id' => $userId]);
-        if ($user->getSponsorship()->getSponsorshipchecked()) {
-            return View::create(['message' => "User with id  " + $userId +  "already use your sponsorship code"], Response::HTTP_NOT_FOUND);
+        if ($user->getSponsorshipCode()->getSponsorshipchecked()) {
+            return View::create(['message' => "User with id  " . $userId .  "already use your sponsorship code"], Response::HTTP_NOT_FOUND);
         }
 
         $sponsorship = $entityManager->getRepository(SponsorshipCode::class)->findOneBy(['sponsorshipCode' => $sponsorshipCode]);
 
-        $userWhoGetTheSponsorShipCode = $entityManager->getRepository(User::class)->findOneBy(['sponsorship' => $sponsorship]);
+        $userWhoGetTheSponsorShipCode = $entityManager->getRepository(User::class)->findOneBy(['sponsorshipCode' => $sponsorship]);
 
         if (!$user) {
-            return View::create(['message' => "User with id  " + $userId +  "doesn't exist"], Response::HTTP_NOT_FOUND);
+            return View::create(['message' => "User with id  " . $userId .  "doesn't exist"], Response::HTTP_NOT_FOUND);
         }
 
         if (!$sponsorshipCode) {
-            return View::create(['message' => "Code with value " + $sponsorship->getSponsorshipCode() +  "doesn't exist"], Response::HTTP_NOT_FOUND);
+            return View::create(['message' => "Code with value " . $sponsorship->getSponsorshipCode() .  "doesn't exist"], Response::HTTP_NOT_FOUND);
         }
 
 
@@ -108,9 +108,9 @@ class SponsorshipCodeController extends AbstractController
         $userWhoGetTheSponsorShipCode->setChallengePoint($userChallengePoint + 100);
         $sponsorship->setChildNumber($userChildNumber + 1);
 
-        if ($user->getSponsorship()) {
-            $user->getSponsorship()->setSponsorshipchecked(true);
-            $user->getSponsorship()->setPartnership($userWhoGetTheSponsorShipCode);
+        if ($user->getSponsorshipCode()) {
+            $user->getSponsorshipCode()->setSponsorshipchecked(true);
+            $user->getSponsorshipCode()->setPartnership($userWhoGetTheSponsorShipCode);
 
         } else {
             $childUserSponsorShip = new SponsorshipCode();
@@ -121,7 +121,8 @@ class SponsorshipCodeController extends AbstractController
             $user->setSponsorship($childUserSponsorShip);
         }
 
-        $entityManager->persist($user, $userWhoGetTheSponsorShipCode);
+        $entityManager->persist($user);
+        $entityManager->persist($userWhoGetTheSponsorShipCode);
         $entityManager->flush();
 
         // In case our POST was a success we need to return a 201 HTTP CREATED response

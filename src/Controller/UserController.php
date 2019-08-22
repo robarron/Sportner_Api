@@ -60,6 +60,9 @@ class UserController extends FOSRestController
     /**
      * Retrieves an User resource By his email
      * @Rest\Get("/userByEmail/{email}", name= "api_user_one" )
+     * @param string $email
+     * @return View
+     * @throws EntityNotFoundException
      */
     public function getUserByEmail(string $email): View
     {
@@ -69,7 +72,7 @@ class UserController extends FOSRestController
         $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
 
         if (!$user) {
-            throw new EntityNotFoundException('User with id '.$email.' does not exist!');
+            throw new EntityNotFoundException('User with email '.$email.' does not exist!');
         }
 
         $formatted = [
@@ -85,6 +88,43 @@ class UserController extends FOSRestController
             "password"=> $user->getPassword(),
             "password_plain_text"=> $user->getPasswordPlainText(),
             "birthday_date"=> $user->getBirthdayDate(),
+            "sponsorship_code" => $user->getSponsorshipCode() ? $user->getSponsorshipCode()->getSponsorshipCode() : null,
+            "sponsorshipchecked" => $user->getSponsorshipCode() ? $user->getSponsorshipCode()->getSponsorshipchecked(): null,
+            "partnershipUserFirstname" => $user->getSponsorshipCode() && $user->getSponsorshipCode()->getPartnerShip() ? $user->getSponsorshipCode()->getPartnerShip()->getFirstName() : null,
+            "last_daily_points_date" => $user->getLastDailyPointsDate(),
+            "challenge_point" => $user->getChallengePoint(),
+            "profil_pic" =>  $user->getImages() && $user->getImages()->getProfilPic() ? $user->getImages()->getProfilPic() : null,
+            "profil_pic2" => $user->getImages() &&  $user->getImages()->getPic2() ? $user->getImages()->getPic2() : null,
+            "profil_pic3" => $user->getImages() &&  $user->getImages()->getPic3() ? $user->getImages()->getPic3() : null,
+            "profil_pic4" => $user->getImages() &&  $user->getImages()->getPic4() ? $user->getImages()->getPic4() : null,
+            "profil_pic5" => $user->getImages() &&  $user->getImages()->getPic5() ? $user->getImages()->getPic5() : null,
+            "profil_pic6" => $user->getImages() &&  $user->getImages()->getPic6() ? $user->getImages()->getPic6() : null,
+        ];
+
+        // In case our GET was a success we need to return a 200 HTTP OK response with the request object
+        return View::create($formatted, Response::HTTP_OK);
+    }
+
+    /**
+     * @Rest\Get("/userPartnerShip/{userId}")
+     * @param int $userId
+     * @return View
+     * @throws EntityNotFoundException
+     */
+    public function getUserPartnerShip(int $userId): View
+    {
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $user = $entityManager->getRepository(User::class)->findOneBy(['id' => $userId]);
+
+        if (!$user) {
+            throw new EntityNotFoundException('User with email '.$email.' does not exist!');
+        }
+
+        $formatted = [
+            "id" => $user->getId(),
+            "partnership"=> $user->getSponsorshipCode()->getPartnerShip(),
         ];
 
         // In case our GET was a success we need to return a 200 HTTP OK response with the request object

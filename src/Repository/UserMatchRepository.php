@@ -19,32 +19,14 @@ class UserMatchRepository extends ServiceEntityRepository
         parent::__construct($registry, UserMatch::class);
     }
 
-    // /**
-    //  * @return UserMatch[] Returns an array of UserMatch objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getAllUserMatches($userId)
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('um')
+            ->Where('um.user = :userId')
+            ->setParameter('userId', $userId)
+            ->orWhere('um.secondUser = :secondUser')
+            ->setParameter('secondUser', $userId)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?UserMatch
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

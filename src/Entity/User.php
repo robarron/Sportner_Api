@@ -196,9 +196,9 @@ class User implements UserInterface
     private $challengePoint;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\SponsorshipCode", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\SponsorshipCode", mappedBy="partnerShip")
      */
-    private $sponsorship;
+    private $partnerShipCodes;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -225,6 +225,11 @@ class User implements UserInterface
      */
     private $matchProposedTo;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\SponsorshipCode", cascade={"persist", "remove"})
+     */
+    private $sponsorshipCode;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -232,6 +237,7 @@ class User implements UserInterface
         $this->secondUserMatches = new ArrayCollection();
         $this->matchPropositions = new ArrayCollection();
         $this->matchProposedTo = new ArrayCollection();
+        $this->partnerShipCodes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -713,18 +719,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getSponsorship(): ?SponsorshipCode
-    {
-        return $this->sponsorship;
-    }
-
-    public function setSponsorship(?SponsorshipCode $sponsorship): self
-    {
-        $this->sponsorship = $sponsorship;
-
-        return $this;
-    }
-
     public function getLastDailyPointsDate(): ?\DateTimeInterface
     {
         return $this->lastDailyPointsDate;
@@ -819,6 +813,49 @@ class User implements UserInterface
                 $matchProposedTo->setUserWanted(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SponsorshipCode[]
+     */
+    public function getPartnerShipCodes(): Collection
+    {
+        return $this->partnerShipCodes;
+    }
+
+    public function addPartnerShipCode(SponsorshipCode $partnerShipCode): self
+    {
+        if (!$this->partnerShipCodes->contains($partnerShipCode)) {
+            $this->partnerShipCodes[] = $partnerShipCode;
+            $partnerShipCode->setPartnerShip($this);
+        }
+
+        return $this;
+    }
+
+    public function removePartnerShipCode(SponsorshipCode $partnerShipCode): self
+    {
+        if ($this->partnerShipCodes->contains($partnerShipCode)) {
+            $this->partnerShipCodes->removeElement($partnerShipCode);
+            // set the owning side to null (unless already changed)
+            if ($partnerShipCode->getPartnerShip() === $this) {
+                $partnerShipCode->setPartnerShip(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getSponsorshipCode(): ?SponsorshipCode
+    {
+        return $this->sponsorshipCode;
+    }
+
+    public function setSponsorshipCode(?SponsorshipCode $sponsorshipCode): self
+    {
+        $this->sponsorshipCode = $sponsorshipCode;
 
         return $this;
     }

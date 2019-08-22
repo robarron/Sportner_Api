@@ -32,9 +32,9 @@ class SponsorshipCode
     private $childNumber;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="partnerShipCodes")
      */
-    private $partnership;
+    private $partnerShip;
 
     public function getId(): ?int
     {
@@ -77,14 +77,14 @@ class SponsorshipCode
         return $this;
     }
 
-    public function getPartnership(): ?User
+    public function getPartnerShip(): ?User
     {
-        return $this->partnership;
+        return $this->partnerShip;
     }
 
-    public function setPartnership(?User $partnership): self
+    public function setPartnerShip(?User $partnerShip): self
     {
-        $this->partnership = $partnership;
+        $this->partnerShip = $partnerShip;
 
         return $this;
     }
