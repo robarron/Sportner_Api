@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Message;
 use App\Entity\UserMatch;
 use DateTime;
+use DateTimeZone;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -64,6 +65,50 @@ class MessageController extends AbstractController
 
             $formatted[] = $item;
         }
+
+        return View::create($formatted, Response::HTTP_OK);
+    }
+
+    /**
+     * Retrieves User last conversation Message
+     * @Rest\Get("/last_message/{senderId}/{receptorId}", requirements={"id"="\d+"})
+     * @param int $senderId
+     * @param int $receptorId
+     * @return View
+     * @throws EntityNotFoundException
+     */
+    public function getUserLastConversationMessage(int $senderId, int $receptorId): View
+    {
+        $joursemainefrancais = [
+            0 => "Dim",
+            1 => "Lun",
+            2 => "Mar",
+            3 => "Mer",
+            4 => "Jeu",
+            5 => "Ven",
+            6 => "Sam",
+    ];
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $user = $entityManager->getRepository(User::class)->findBy(['id' => $senderId]);
+
+        $userlastConversationMsg = $entityManager->getRepository(Message::class)->getUserLastMessage($senderId, $receptorId);
+
+        if (!$user) {
+            throw new EntityNotFoundException('User with id '.$senderId.' does not exist!');
+        }
+
+        if (!$userlastConversationMsg) {
+            throw new EntityNotFoundException('User with id '.$senderId.' hasn\'t conversation yet!');
+        }
+
+        $lastMsgDay = $userlastConversationMsg[0]->getCreatedAt();
+
+        $formatted = [
+            "id" => $userlastConversationMsg[0]->getId(),
+            "text"=> strlen($userlastConversationMsg[0]->getText()) > 25 ? substr($userlastConversationMsg[0]->getText(), 0, 25) . '...' : $userlastConversationMsg[0]->getText(),
+            "createdAt"=> $joursemainefrancais[$lastMsgDay->format('w')],
+        ];
 
         return View::create($formatted, Response::HTTP_OK);
     }

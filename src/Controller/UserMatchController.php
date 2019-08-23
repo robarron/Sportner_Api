@@ -85,6 +85,8 @@ class UserMatchController extends AbstractController
             $item["user_first_name"] = $secondUser->getFirstName();
             $item["user_last_name"] = $secondUser->getLastName();
             $item["user_id"] = $secondUser->getId();
+            $item["last_conversation"] = null;
+            $item["last_conversation_creation_date"] = null;
 
             $formatted[] = $item;
         }

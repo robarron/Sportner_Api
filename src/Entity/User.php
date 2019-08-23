@@ -240,6 +240,16 @@ class User implements UserInterface
      */
     private $messagesReceptor;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Feed", mappedBy="user")
+     */
+    private $feeds;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\FeedComment", mappedBy="user")
+     */
+    private $feedComments;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -250,6 +260,8 @@ class User implements UserInterface
         $this->partnerShipCodes = new ArrayCollection();
         $this->messagesSender = new ArrayCollection();
         $this->messagesReceptor = new ArrayCollection();
+        $this->feeds = new ArrayCollection();
+        $this->feedComments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -928,6 +940,68 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($messagesReceptor->getReceptor() === $this) {
                 $messagesReceptor->setReceptor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Feed[]
+     */
+    public function getFeeds(): Collection
+    {
+        return $this->feeds;
+    }
+
+    public function addFeed(Feed $feed): self
+    {
+        if (!$this->feeds->contains($feed)) {
+            $this->feeds[] = $feed;
+            $feed->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFeed(Feed $feed): self
+    {
+        if ($this->feeds->contains($feed)) {
+            $this->feeds->removeElement($feed);
+            // set the owning side to null (unless already changed)
+            if ($feed->getUser() === $this) {
+                $feed->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|FeedComment[]
+     */
+    public function getFeedComments(): Collection
+    {
+        return $this->feedComments;
+    }
+
+    public function addFeedComment(FeedComment $feedComment): self
+    {
+        if (!$this->feedComments->contains($feedComment)) {
+            $this->feedComments[] = $feedComment;
+            $feedComment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFeedComment(FeedComment $feedComment): self
+    {
+        if ($this->feedComments->contains($feedComment)) {
+            $this->feedComments->removeElement($feedComment);
+            // set the owning side to null (unless already changed)
+            if ($feedComment->getUser() === $this) {
+                $feedComment->setUser(null);
             }
         }
 

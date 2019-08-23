@@ -39,6 +39,25 @@ class MessageRepository extends ServiceEntityRepository
         ;
     }
 
+    public function getUserLastMessage($userId, $receptorId)
+    {
+        $qb = $this->createQueryBuilder('m');
+
+        return $qb
+            ->andWhere($qb->expr()->andX(
+                $qb->expr()->eq('m.sender', $userId),
+                $qb->expr()->eq('m.receptor', $receptorId)
+            ))
+            ->orWhere($qb->expr()->andX(
+                $qb->expr()->eq('m.sender', $receptorId),
+                $qb->expr()->eq('m.receptor', $userId)
+            ))
+            ->orderBy('m.createdAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
     /*
     public function findOneBySomeField($value): ?Message
     {
