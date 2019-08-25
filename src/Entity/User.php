@@ -250,6 +250,16 @@ class User implements UserInterface
      */
     private $feedComments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserLikeComment", mappedBy="user")
+     */
+    private $userLikeComments;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserLikeFeed", mappedBy="user")
+     */
+    private $userLikeFeeds;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -262,6 +272,8 @@ class User implements UserInterface
         $this->messagesReceptor = new ArrayCollection();
         $this->feeds = new ArrayCollection();
         $this->feedComments = new ArrayCollection();
+        $this->userLikeComments = new ArrayCollection();
+        $this->userLikeFeeds = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1002,6 +1014,68 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($feedComment->getUser() === $this) {
                 $feedComment->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserLikeComment[]
+     */
+    public function getUserLikeComments(): Collection
+    {
+        return $this->userLikeComments;
+    }
+
+    public function addUserLikeComment(UserLikeComment $userLikeComment): self
+    {
+        if (!$this->userLikeComments->contains($userLikeComment)) {
+            $this->userLikeComments[] = $userLikeComment;
+            $userLikeComment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserLikeComment(UserLikeComment $userLikeComment): self
+    {
+        if ($this->userLikeComments->contains($userLikeComment)) {
+            $this->userLikeComments->removeElement($userLikeComment);
+            // set the owning side to null (unless already changed)
+            if ($userLikeComment->getUser() === $this) {
+                $userLikeComment->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserLikeFeed[]
+     */
+    public function getUserLikeFeeds(): Collection
+    {
+        return $this->userLikeFeeds;
+    }
+
+    public function addUserLikeFeed(UserLikeFeed $userLikeFeed): self
+    {
+        if (!$this->userLikeFeeds->contains($userLikeFeed)) {
+            $this->userLikeFeeds[] = $userLikeFeed;
+            $userLikeFeed->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserLikeFeed(UserLikeFeed $userLikeFeed): self
+    {
+        if ($this->userLikeFeeds->contains($userLikeFeed)) {
+            $this->userLikeFeeds->removeElement($userLikeFeed);
+            // set the owning side to null (unless already changed)
+            if ($userLikeFeed->getUser() === $this) {
+                $userLikeFeed->setUser(null);
             }
         }
 

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,6 +37,21 @@ class FeedComment
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="feedComments")
      */
     private $user;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $likes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserLikeComment", mappedBy="feedComment")
+     */
+    private $userLikeComments;
+
+    public function __construct()
+    {
+        $this->userLikeComments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -85,6 +102,49 @@ class FeedComment
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getLikes(): ?int
+    {
+        return $this->likes;
+    }
+
+    public function setLikes(int $likes): self
+    {
+        $this->likes = $likes;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserLikeComment[]
+     */
+    public function getUserLikeComments(): Collection
+    {
+        return $this->userLikeComments;
+    }
+
+    public function addUserLikeComment(UserLikeComment $userLikeComment): self
+    {
+        if (!$this->userLikeComments->contains($userLikeComment)) {
+            $this->userLikeComments[] = $userLikeComment;
+            $userLikeComment->setFeedComment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserLikeComment(UserLikeComment $userLikeComment): self
+    {
+        if ($this->userLikeComments->contains($userLikeComment)) {
+            $this->userLikeComments->removeElement($userLikeComment);
+            // set the owning side to null (unless already changed)
+            if ($userLikeComment->getFeedComment() === $this) {
+                $userLikeComment->setFeedComment(null);
+            }
+        }
 
         return $this;
     }

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Feed;
 use App\Entity\FeedComment;
 use App\Entity\MatchProposition;
+use App\Entity\UserLikeFeed;
 use App\Entity\UserMatch;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -80,6 +81,8 @@ class FeedController extends AbstractController
 
             $comments = $entityManager->getRepository(FeedComment::class)->findBy(["feed" => $feed->getId()], ["createdAt" => "DESC"], 15);
 
+            $didLike = $entityManager->getRepository(UserLikeFeed::class)->findOneBy(['user' => $userId, 'feed' => $feed->getId()]);
+
             $createdAtFormatted = $feed->getCreatedAt()->format('j') . ' ' . $moisfrancais[$feed->getCreatedAt()->format('n')];
 
             $item = [];
@@ -93,31 +96,12 @@ class FeedController extends AbstractController
             $item["time_spend_since_creation_in_minute"] = $currentDate->diff($feed->getCreatedAt())->format('%i');
             $item["time_spend_since_creation_in_hour"] = $currentDate->diff($feed->getCreatedAt())->format('%h');
             $item["time_spend_since_creation_in_day"] = $currentDate->diff($feed->getCreatedAt())->format('%d');
+            $item["comments_number"] = sizeof($comments) ? sizeof($comments) : 0;
+            $item["did_like_feed"] = $didLike ? true : false;
 
             $feedTabResult[] = $item;
         }
 
-//        if ($comments)
-//        {
-//
-//            foreach ($comments as $comment) {
-//
-//                $item = [];
-//
-//                $item["comment_id"] = $comment->getId();
-//                $item["comment_time_spend_since_creation_in_minute"] = $currentDate->diff($comment->getCreatedAt())->format('%i');
-//                $item["comment_time_spend_since_creation_in_hour"] = $currentDate->diff($comment->getCreatedAt())->format('%h');
-//                $item["comment_time_spend_since_creation_in_day"] = $currentDate->diff($comment->getCreatedAt())->format('%d');
-//                $item["comment_content"] = $comment->getContent();
-//                $item["comment_user_name"] = $comment->getUser()->getFirstName() . ' ' .$comment->getUser()->getLastName();
-//                $item["comment_user_profil_pic"] = $comment->getUser()->getImages() ? $comment->getUser()->getImages()->getProfilPic() : null;
-//
-//                $commentsTabResult[] = $item;
-//
-//            }
-//        }
-
-//        $formatted = array_merge($feedTabResult, $commentsTabResult);
         // In case our GET was a success we need to return a 200 HTTP OK response with the request object
         return View::create($feedTabResult, Response::HTTP_OK);
     }
@@ -152,6 +136,9 @@ class FeedController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
 
+        $user = $entityManager->getRepository(User::class)->findOneBy(['id' => $request->get('userId')]);
+
+
         $feed = $entityManager->getRepository(Feed::class)->findOneBy(["id" => $request->get('feedId')]);
 
         if (!$feed) {
@@ -160,7 +147,12 @@ class FeedController extends AbstractController
 
         $feed->setLikes($request->get('likes'));
 
+        $userLikeFeed = new UserLikeFeed;
+        $userLikeFeed->setUser($user);
+        $userLikeFeed->setFeed($feed);
+
         $entityManager->persist($feed);
+        $entityManager->persist($userLikeFeed);
         $entityManager->flush();
 
         // In case our POST was a success we need to return a 201 HTTP CREATED response

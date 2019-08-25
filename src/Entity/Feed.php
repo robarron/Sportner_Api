@@ -43,9 +43,15 @@ class Feed
      */
     private $createdAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserLikeFeed", mappedBy="feed")
+     */
+    private $userLikeFeeds;
+
     public function __construct()
     {
         $this->feedComments = new ArrayCollection();
+        $this->userLikeFeeds = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -128,6 +134,37 @@ class Feed
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserLikeFeed[]
+     */
+    public function getUserLikeFeeds(): Collection
+    {
+        return $this->userLikeFeeds;
+    }
+
+    public function addUserLikeFeed(UserLikeFeed $userLikeFeed): self
+    {
+        if (!$this->userLikeFeeds->contains($userLikeFeed)) {
+            $this->userLikeFeeds[] = $userLikeFeed;
+            $userLikeFeed->setFeed($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserLikeFeed(UserLikeFeed $userLikeFeed): self
+    {
+        if ($this->userLikeFeeds->contains($userLikeFeed)) {
+            $this->userLikeFeeds->removeElement($userLikeFeed);
+            // set the owning side to null (unless already changed)
+            if ($userLikeFeed->getFeed() === $this) {
+                $userLikeFeed->setFeed(null);
+            }
+        }
 
         return $this;
     }
