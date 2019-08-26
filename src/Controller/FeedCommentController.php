@@ -35,7 +35,7 @@ class FeedCommentController extends AbstractController
             throw new EntityNotFoundException('Feed with id ' . $feedId . ' does not exist !');
         }
 
-        $comments = $entityManager->getRepository(FeedComment::class)->findBy(["feed" => $feedId], ["createdAt" => "DESC"], 15);
+        $comments = $entityManager->getRepository(FeedComment::class)->findBy(["feed" => $feedId], ["createdAt" => "DESC"]);
 
         if (!$comments) {
             throw new EntityNotFoundException('Feed with id '. $feedId . ' does not have comment yet !');
