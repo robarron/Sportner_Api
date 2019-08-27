@@ -42,19 +42,24 @@ class ImageController extends AbstractController
         $image->setImagePath('string');
         $image->setImagePathForRequire('string');
 
-        $serializer->serialize($image, 'json');
+//        $serializer->serialize($image, 'json');
         $profil_pic ? $image->setProfilPic($profil_pic) : null;
 
         $entityManager->persist($image);
         $entityManager->flush();
 
-        $image->setImagePath($image->getRelativeImageDir());
-        $image->setImagePathForRequire($image->getRelativeImageDirForRequire());
+//        $image->setImagePath($image->getRelativeImageDir());
+//        $image->setImagePathForRequire($image->getRelativeImageDirForRequire());
+//
+//        $entityManager->persist($image);
+//        $entityManager->flush();
 
-        $entityManager->persist($image);
-        $entityManager->flush();
+        $formatted = [
+            'id' => $image->getId(),
+        ];
+
         // In case our POST was a success we need to return a 201 HTTP CREATED response
-        return View::create($image, Response::HTTP_CREATED);
+        return View::create($formatted, Response::HTTP_CREATED);
     }
 
     /**
@@ -93,7 +98,11 @@ class ImageController extends AbstractController
         $entityManager->persist($image);
         $entityManager->flush();
 
-        return View::create($image, Response::HTTP_OK);
+        $formatted = [
+            'id' => $image->getId(),
+        ];
+
+        return View::create($formatted, Response::HTTP_OK);
     }
 
     /**
@@ -220,6 +229,9 @@ class ImageController extends AbstractController
         if (empty($image)) {
             return View::create(['message' => 'Image not found'], Response::HTTP_NOT_FOUND);
         }
+        $formatted = [
+            'id' => $image->getId(),
+        ];
 
         $profil_pic ? $image->setProfilPic(null) : null;
         $pic2 ? $image->setPic2(null) : null;
@@ -231,7 +243,9 @@ class ImageController extends AbstractController
         $entityManager->persist($image);
         $entityManager->flush();
 
-        return View::create($image, Response::HTTP_OK);
+
+
+        return View::create($formatted, Response::HTTP_OK);
     }
 
     /**

@@ -94,11 +94,11 @@ class UserController extends FOSRestController
             "last_daily_points_date" => $user->getLastDailyPointsDate(),
             "challenge_point" => $user->getChallengePoint(),
             "profil_pic" =>  $user->getImages() && $user->getImages()->getProfilPic() ? $user->getImages()->getProfilPic() : null,
-            "profil_pic2" => $user->getImages() &&  $user->getImages()->getPic2() ? $user->getImages()->getPic2() : null,
-            "profil_pic3" => $user->getImages() &&  $user->getImages()->getPic3() ? $user->getImages()->getPic3() : null,
-            "profil_pic4" => $user->getImages() &&  $user->getImages()->getPic4() ? $user->getImages()->getPic4() : null,
-            "profil_pic5" => $user->getImages() &&  $user->getImages()->getPic5() ? $user->getImages()->getPic5() : null,
-            "profil_pic6" => $user->getImages() &&  $user->getImages()->getPic6() ? $user->getImages()->getPic6() : null,
+            "pic2" => $user->getImages() &&  $user->getImages()->getPic2() ? $user->getImages()->getPic2() : null,
+            "pic3" => $user->getImages() &&  $user->getImages()->getPic3() ? $user->getImages()->getPic3() : null,
+            "pic4" => $user->getImages() &&  $user->getImages()->getPic4() ? $user->getImages()->getPic4() : null,
+            "pic5" => $user->getImages() &&  $user->getImages()->getPic5() ? $user->getImages()->getPic5() : null,
+            "pic6" => $user->getImages() &&  $user->getImages()->getPic6() ? $user->getImages()->getPic6() : null,
         ];
 
         // In case our GET was a success we need to return a 200 HTTP OK response with the request object

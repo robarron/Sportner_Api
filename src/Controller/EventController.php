@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Entity\MatchProposition;
 use App\Entity\UserMatch;
+use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,7 +44,7 @@ class EventController extends AbstractController
 
             $item = [];
 
-            $item["comment_id"] = $topEvent->getId();
+            $item["id"] = $topEvent->getId();
             $item["city"] = $topEvent->getCity();
             $item["interested_number"] = $topEvent->getInterestedNumber();
             $item["is_top_event"] = $topEvent->getIsTopEvent();
@@ -93,7 +94,7 @@ class EventController extends AbstractController
 
             $item = [];
 
-            $item["comment_id"] = $event->getId();
+            $item["id"] = $event->getId();
             $item["city"] = $event->getCity();
             $item["interested_number"] = $event->getInterestedNumber();
             $item["is_top_event"] = $event->getIsTopEvent();
@@ -112,5 +113,66 @@ class EventController extends AbstractController
 
         // In case our POST was a success we need to return a 201 HTTP CREATED response
         return View::create($eventsResult, Response::HTTP_CREATED);
+    }
+
+    /**
+     * Modify the interested number of the current Event
+     * @Rest\Patch("/event_interested_number")
+     * @param Request $request
+     * @return View
+     * @throws EntityNotFoundException
+     */
+    public function patchCurrentEventInterestedNumber(Request $request): View
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $eventItem = $entityManager->getRepository(Event::class)->findOneBy(['id' => $request->get('eventId')]);
+
+        if (!$eventItem) {
+            throw new EntityNotFoundException('event with id '. $request->get('eventId') . ' does not exist !');
+        }
+
+
+        $eventItem->setInterestedNumber($eventItem->getInterestedNumber() + 1);
+
+        $entityManager->persist($eventItem);
+        $entityManager->flush();
+
+        $formatted = [
+            "interested_number" => $eventItem->getInterestedNumber(),
+        ];
+
+        // In case our POST was a success we need to return a 201 HTTP CREATED response
+        return View::create($formatted, Response::HTTP_CREATED);
+    }
+
+    /**
+     * Creates a User resource
+     * @Rest\Patch("/event_participated_number")
+     * @param Request $request
+     * @return View
+     * @throws EntityNotFoundException
+     */
+    public function patchCurrentEventParticipatedNumber(Request $request): View
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $eventItem = $entityManager->getRepository(Event::class)->findOneBy(['id' => $request->get('eventId')]);
+
+        if (!$eventItem) {
+            throw new EntityNotFoundException('event with id '. $request->get('eventId') . ' does not exist !');
+        }
+
+        $eventItem->setParticipateNumber($eventItem->getParticipateNumber() + 1);
+
+        $entityManager->persist($eventItem);
+        $entityManager->flush();
+
+        $formatted = [
+            "participated_number" => $eventItem->getParticipateNumber(),
+        ];
+
+        // In case our POST was a success we need to return a 201 HTTP CREATED response
+        return View::create($formatted, Response::HTTP_CREATED);
     }
 }

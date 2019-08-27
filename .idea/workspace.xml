@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8b474beb-1060-4ba1-bd77-9b64ec4f78df" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Controller/EventController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/FeedCommentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/FeedCommentController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/EventController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/EventController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ImageController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ImageController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,7 +22,7 @@
       <file leaf-file-name="FeedController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Controller/FeedController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
+            <state relative-caret-position="1462">
               <caret line="97" column="107" selection-start-line="97" selection-start-column="107" selection-end-line="97" selection-end-column="109" />
               <folding>
                 <element signature="e#34#54#0#PHP" expanded="true" />
@@ -30,11 +31,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ImageController.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ImageController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Controller/ImageController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="176" column="59" selection-start-line="160" selection-start-column="8" selection-end-line="176" selection-end-column="59" />
+            <state relative-caret-position="222">
+              <caret line="240" column="45" selection-start-line="240" selection-start-column="45" selection-end-line="240" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -42,17 +43,17 @@
       <file leaf-file-name="MatchPropositionController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Controller/MatchPropositionController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
+            <state relative-caret-position="1054">
               <caret line="69" column="19" selection-end-line="76" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EventController.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="EventController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Controller/EventController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="80" selection-start-line="80" selection-end-line="80" />
+            <state relative-caret-position="181">
+              <caret line="94" column="23" selection-start-line="94" selection-start-column="23" selection-end-line="94" selection-end-column="23" />
               <folding>
                 <element signature="e#34#55#0#PHP" expanded="true" />
               </folding>
@@ -60,10 +61,19 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="UserController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Controller/UserController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="112">
+              <caret line="88" column="66" selection-start-line="88" selection-start-column="66" selection-end-line="88" selection-end-column="66" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Event.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Entity/Event.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="123">
+            <state relative-caret-position="2839">
               <caret line="167" column="40" selection-start-line="167" selection-start-column="20" selection-end-line="167" selection-end-column="40" />
             </state>
           </provider>
@@ -72,7 +82,7 @@
       <file leaf-file-name="EventRepository.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Repository/EventRepository.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
+            <state relative-caret-position="391">
               <caret line="25" column="42" selection-start-line="25" selection-start-column="42" selection-end-line="25" selection-end-column="42" />
             </state>
           </provider>
@@ -81,8 +91,8 @@
       <file leaf-file-name="FeedCommentController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Controller/FeedCommentController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1496">
-              <caret line="130" column="12" selection-start-line="130" selection-start-column="12" selection-end-line="130" selection-end-column="12" />
+            <state relative-caret-position="481">
+              <caret line="149" column="5" selection-start-line="101" selection-start-column="4" selection-end-line="149" selection-end-column="5" />
               <folding>
                 <element signature="e#34#54#0#PHP" expanded="true" />
               </folding>
@@ -93,7 +103,7 @@
       <file leaf-file-name="FeedRepository.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Repository/FeedRepository.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
+            <state relative-caret-position="425">
               <caret line="27" column="14" selection-start-line="27" selection-start-column="14" selection-end-line="27" selection-end-column="14" />
             </state>
           </provider>
@@ -102,17 +112,8 @@
       <file leaf-file-name="Image.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Entity/Image.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
+            <state relative-caret-position="1343">
               <caret line="83" column="65" selection-start-line="83" selection-start-column="60" selection-end-line="83" selection-end-column="65" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FeedComment.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Entity/FeedComment.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="816">
-              <caret line="50" column="20" selection-start-line="50" selection-start-column="20" selection-end-line="50" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -121,24 +122,16 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>forma</find>
-      <find>set</find>
-      <find>creat</find>
-      <find>get</find>
-      <find>\get</find>
-      <find>getc</find>
       <find>findOneBy(['sponsor</find>
       <find>thr</find>
       <find>.length</find>
       <find>curr</find>
-      <find>patch</find>
       <find>add</find>
       <find>feed_comments/</find>
       <find>comment_l</find>
       <find>did_l</find>
       <find>ad</find>
       <find>comments_number</find>
-      <find>post</find>
       <find>emp</find>
       <find>GET</find>
       <find>feed_comments</find>
@@ -151,6 +144,14 @@
       <find>getParticipateNumber</find>
       <find>getSportType</find>
       <find>getticket</find>
+      <find>@Rest\Patch</find>
+      <find>getUserObject</find>
+      <find>userByEmail</find>
+      <find>PATCH</find>
+      <find>images</find>
+      <find>patch</find>
+      <find>post</find>
+      <find>delet</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -201,8 +202,6 @@
         <option value="$PROJECT_DIR$/src/Entity/SponsorshipCode.php" />
         <option value="$PROJECT_DIR$/src/Entity/User.php" />
         <option value="$PROJECT_DIR$/src/Controller/SponsorshipCodeController.php" />
-        <option value="$PROJECT_DIR$/src/Controller/ImageController.php" />
-        <option value="$PROJECT_DIR$/src/Controller/UserController.php" />
         <option value="$PROJECT_DIR$/src/Repository/MatchPropositionRepository.php" />
         <option value="$PROJECT_DIR$/src/Repository/MatchRepository.php" />
         <option value="$PROJECT_DIR$/src/Repository/UserMatchRepository.php" />
@@ -217,6 +216,8 @@
         <option value="$PROJECT_DIR$/src/Controller/FeedCommentController.php" />
         <option value="$PROJECT_DIR$/src/Repository/EventRepository.php" />
         <option value="$PROJECT_DIR$/src/Controller/EventController.php" />
+        <option value="$PROJECT_DIR$/src/Controller/UserController.php" />
+        <option value="$PROJECT_DIR$/src/Controller/ImageController.php" />
       </list>
     </option>
   </component>
@@ -391,8 +392,8 @@
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-15" />
     <option name="y" value="-15" />
-    <option name="width" value="1953" />
-    <option name="height" value="2093" />
+    <option name="width" value="1955" />
+    <option name="height" value="2095" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -466,7 +467,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="SearchEverywhereHistoryKey" value="image&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Entity/Image.php&#10;feedcon&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Controller/FeedController.php&#10;feedco&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Entity/FeedComment.php&#10;feedcomm&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Entity/FeedComment.php&#10;feedcomment&#9;null&#9;null&#10;feed&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Entity/Feed.php&#10;user&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Entity/User.php&#10;usermatch&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Entity/UserMatch.php&#10;usermat&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Entity/UserMatch.php&#10;imagecon&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Controller/ImageController.php&#10;sponsor&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Entity/SponsorshipCode.php&#10;spon&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Controller/SponsorshipCodeController.php&#10;usercon&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Controller/UserController.php&#10;matching&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Entity/MatchingRepository.php&#10;userpara&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Entity/UserParameters.php&#10;userparameter&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Entity/UserParameters.php&#10;imagerep&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Repository/ImageRepository.php&#10;migration&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Migrations&#10;migratio&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Migrations&#10;usercontroller&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Controller/UserController.php&#10;framework&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/config/packages/framework.yaml&#10;imagerepo&#9;null&#9;null&#10;service&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/config/services.yaml&#10;userr&#9;null&#9;null&#10;cache&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/var/cache&#10;uploadedfile&#9;null&#9;null&#10;doctrine.y&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/config/packages/doctrine.yaml&#10;login&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/templates/registration/login.html.twig&#10;onfig/routing/redirect&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/vendor/hwi/oauth-bundle/Resources/config/routing/redirect.xml&#10;security&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/config/packages/security.yaml" />
+    <property name="SearchEverywhereHistoryKey" value="userc&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Controller/UserController.php&#10;image&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Entity/Image.php&#10;feedcon&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Controller/FeedController.php&#10;feedco&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Entity/FeedComment.php&#10;feedcomm&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Entity/FeedComment.php&#10;feedcomment&#9;null&#9;null&#10;feed&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Entity/Feed.php&#10;user&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Entity/User.php&#10;usermatch&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Entity/UserMatch.php&#10;usermat&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Entity/UserMatch.php&#10;imagecon&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Controller/ImageController.php&#10;sponsor&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Entity/SponsorshipCode.php&#10;spon&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Controller/SponsorshipCodeController.php&#10;usercon&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Controller/UserController.php&#10;matching&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Entity/MatchingRepository.php&#10;userpara&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Entity/UserParameters.php&#10;userparameter&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Entity/UserParameters.php&#10;imagerep&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Repository/ImageRepository.php&#10;migration&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Migrations&#10;migratio&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Migrations&#10;usercontroller&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/src/Controller/UserController.php&#10;framework&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/config/packages/framework.yaml&#10;imagerepo&#9;null&#9;null&#10;service&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/config/services.yaml&#10;userr&#9;null&#9;null&#10;cache&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/var/cache&#10;uploadedfile&#9;null&#9;null&#10;doctrine.y&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/config/packages/doctrine.yaml&#10;login&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/templates/registration/login.html.twig&#10;onfig/routing/redirect&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/vendor/hwi/oauth-bundle/Resources/config/routing/redirect.xml&#10;security&#9;FILE&#9;file://C:/xampp/htdocs/projets/Sportner_Api/config/packages/security.yaml" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Sportner" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -548,11 +549,13 @@
       <workItem from="1566723137033" duration="9554000" />
       <workItem from="1566824724489" duration="1247000" />
       <workItem from="1566836351168" duration="5977000" />
+      <workItem from="1566891223552" duration="1389000" />
+      <workItem from="1566923400449" duration="10283000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="391423000" />
+    <option name="totallyTimeSpent" value="403095000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1549" height="837" extended-state="6" />
@@ -561,16 +564,16 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32352942" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.34705883" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18309858" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32352942" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.2882353" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18846412" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32794118" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -781,9 +784,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1258">
           <caret line="81" column="46" selection-start-line="81" selection-start-column="46" selection-end-line="81" selection-end-column="46" />
-          <folding>
-            <element signature="e#34#59#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -805,24 +805,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1683">
           <caret line="109" column="38" selection-start-line="109" selection-start-column="38" selection-end-line="109" selection-end-column="38" />
-          <folding>
-            <element signature="e#34#57#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/UserController.php">
-      <provider editor-type-id="LargeFileEditor">
-        <state relative-caret-position="119">
-          <caret line="79" column="12" selection-start-line="79" selection-start-column="12" selection-end-line="79" selection-end-column="12" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="38" column="5" selection-start-line="18" selection-start-column="4" selection-end-line="38" selection-end-column="5" />
-          <folding>
-            <element signature="e#34#54#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -835,60 +817,53 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Repository/FeedRepository.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
+        <state relative-caret-position="425">
           <caret line="27" column="14" selection-start-line="27" selection-start-column="14" selection-end-line="27" selection-end-column="14" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Entity/Image.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
+        <state relative-caret-position="1343">
           <caret line="83" column="65" selection-start-line="83" selection-start-column="60" selection-end-line="83" selection-end-column="65" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Repository/EventRepository.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
+        <state relative-caret-position="391">
           <caret line="25" column="42" selection-start-line="25" selection-start-column="42" selection-end-line="25" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/ImageController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="176" column="59" selection-start-line="160" selection-start-column="8" selection-end-line="176" selection-end-column="59" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/MatchPropositionController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
+        <state relative-caret-position="1054">
           <caret line="69" column="19" selection-end-line="76" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/FeedCommentController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1496">
-          <caret line="130" column="12" selection-start-line="130" selection-start-column="12" selection-end-line="130" selection-end-column="12" />
-          <folding>
-            <element signature="e#34#54#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Entity/Event.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="123">
+        <state relative-caret-position="2839">
           <caret line="167" column="40" selection-start-line="167" selection-start-column="20" selection-end-line="167" selection-end-column="40" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/FeedController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
+        <state relative-caret-position="1462">
           <caret line="97" column="107" selection-start-line="97" selection-start-column="107" selection-end-line="97" selection-end-column="109" />
+          <folding>
+            <element signature="e#34#54#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/FeedCommentController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="481">
+          <caret line="149" column="5" selection-start-line="101" selection-start-column="4" selection-end-line="149" selection-end-column="5" />
           <folding>
             <element signature="e#34#54#0#PHP" expanded="true" />
           </folding>
@@ -897,11 +872,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/EventController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="80" selection-start-line="80" selection-end-line="80" />
+        <state relative-caret-position="181">
+          <caret line="94" column="23" selection-start-line="94" selection-start-column="23" selection-end-line="94" selection-end-column="23" />
           <folding>
             <element signature="e#34#55#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/UserController.php">
+      <provider editor-type-id="LargeFileEditor">
+        <state relative-caret-position="119">
+          <caret line="79" column="12" selection-start-line="79" selection-start-column="12" selection-end-line="79" selection-end-column="12" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="88" column="66" selection-start-line="88" selection-start-column="66" selection-end-line="88" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/ImageController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="240" column="45" selection-start-line="240" selection-start-column="45" selection-end-line="240" selection-end-column="45" />
         </state>
       </provider>
     </entry>
