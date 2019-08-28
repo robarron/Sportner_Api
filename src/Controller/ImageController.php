@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Image;
 use App\Entity\User;
+use App\Entity\UserMatch;
 use DateTime;
 use Doctrine\ORM\EntityNotFoundException;
 use FOS\RestBundle\Request\ParamFetcherInterface;
@@ -117,6 +118,7 @@ class ImageController extends AbstractController
      * @param int $userId
      * @param ParamFetcherInterface $paramFetcher
      * @return View
+     * @throws EntityNotFoundException
      */
     public function getImagesWithoutCurrentUser(int $userId, ParamFetcherInterface $paramFetcher): View
     {
@@ -160,13 +162,40 @@ class ImageController extends AbstractController
      * @Rest\Get("/all_images_without_me/{userId}")
      * @param int $userId
      * @return View
+     * @throws EntityNotFoundException
      */
     public function getAllImagesWithoutCurrentUser(int $userId): View
     {
         $entityManager = $this->getDoctrine()->getManager();
 
-        $images = $entityManager->getRepository(Image::class)->FindAllImagesExceptMe($userId);
-//        dump($images);die;
+        $user = $entityManager->getRepository(User::class)->findOneBy(['id' => $userId]);
+
+        if (!$user) {
+            throw new EntityNotFoundException('User with email '.$email.' does not exist!');
+        }
+
+        $userMatches = $entityManager->getRepository(UserMatch::class)->getAllUserMatches($userId);
+
+        $userMatchIds = [];
+
+        foreach ($userMatches as $userMatch)
+        {
+            $secondUser = null;
+            if ($userMatch->getUser()->getId() != $userId)
+            {
+                $secondUser = $userMatch->getUser();
+            } else {
+                $secondUser = $userMatch->getSecondUser();
+            }
+
+            $item =
+                $secondUser->getId()
+            ;
+            $userMatchIds[] = $item;
+        }
+
+        $images = $entityManager->getRepository(Image::class)->FindAllImagesExceptMe($userId, $userMatchIds);
+
         $formatted = [];
 
         foreach ($images as $image) {
