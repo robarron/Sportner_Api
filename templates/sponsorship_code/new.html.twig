@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New SponsorshipCode{% endblock %}
+
+{% block body %}
+    <h1>Create new SponsorshipCode</h1>
+
+    {{ include('sponsorship_code/_form.html.twig') }}
+
+    <a href="{{ path('sponsorship_code_index') }}">back to list</a>
+{% endblock %}
